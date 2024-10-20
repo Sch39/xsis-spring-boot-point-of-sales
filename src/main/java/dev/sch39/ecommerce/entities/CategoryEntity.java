@@ -4,7 +4,6 @@ import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.FilterDef;
 import org.hibernate.annotations.ParamDef;
 import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.SQLRestriction;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -37,5 +36,6 @@ public class CategoryEntity extends BaseEntity {
   @Column(length = 50, unique = true, nullable = false)
   private String slug;
 
-  private boolean isDeleted = false;
+  @Column(name = "is_deleted")
+  private boolean deleted;
 }

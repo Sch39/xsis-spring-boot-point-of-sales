@@ -6,14 +6,18 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import dev.sch39.ecommerce.dtos.request.CreateCategoryRequestDto;
 import dev.sch39.ecommerce.dtos.response.CategoryResponseDto;
 import dev.sch39.ecommerce.entities.CategoryEntity;
 import dev.sch39.ecommerce.services.CategoryService;
+import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 @RequestMapping("/admin/product-management/category")
@@ -22,7 +26,8 @@ public class CategoryController {
   CategoryService categoryService;
 
   @GetMapping({ "", "/" }) // or use configuration with implement then override configurePathMatch
-  public String getCategories(Model model, @RequestParam(required = false, defaultValue = "all") List<String> filter) {
+  public String getCategories(Model model, @RequestParam(required = false, defaultValue = "all") List<String> filter,
+      CategoryEntity categoryEntity) {
     List<CategoryEntity> categories = new ArrayList<>();
     if (filter.contains("deleted")
         && filter.contains("not-deleted")) {
@@ -45,8 +50,21 @@ public class CategoryController {
       categoryResponseDtos.add(dto);
     }
     model.addAttribute("categories", categoryResponseDtos);
-    // model.addAttribute("servletPath", request.getServletPath());
     return "admin/category/index";
+  }
+
+  @PostMapping("/create")
+  public String createCategory(@Valid CreateCategoryRequestDto categoryDto, BindingResult result, Model model) {
+    System.out.println("\n\nisDeleted: " + categoryDto.isDeleted());
+    if (!result.hasErrors()) {
+      CategoryEntity category = new CategoryEntity();
+      category.setName(categoryDto.getName());
+      category.setSlug(categoryDto.getSlug());
+      category.setDescription(categoryDto.getDescription());
+      category.setDeleted(categoryDto.isDeleted());
+      categoryService.save(category);
+    }
+    return "redirect:/admin/product-management/category";
   }
 
 }

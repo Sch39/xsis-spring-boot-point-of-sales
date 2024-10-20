@@ -41,4 +41,9 @@ public class CategoryServiceImpl implements CategoryService {
     throw new UnsupportedOperationException("Unimplemented method 'searchByText'");
   }
 
+  @Override
+  public CategoryEntity save(CategoryEntity category) {
+    return categoryRepository.save(category);
+  }
+
 }

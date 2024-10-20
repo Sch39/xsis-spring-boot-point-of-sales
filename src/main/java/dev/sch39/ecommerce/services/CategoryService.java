@@ -10,4 +10,6 @@ public interface CategoryService {
   List<CategoryEntity> getAllCategory();
 
   List<CategoryEntity> searchByText(String search);
+
+  CategoryEntity save(CategoryEntity category);
 }

@@ -35,3 +35,23 @@ function clearForm() {
   $('#modalFieldSlug').val(null);
   $('#modalFieldDeleted').prop('checked', false);
  }
+
+ function deleteData(el){
+  $('#deleteCategory').attr('data-id', $(el).data('id'));
+  $('#deleteName').text($(el).data('name'));
+  $('#deleteSlug').text($(el).data('slug'));
+  $('#deleteActive').prop('checked', $(el).data('deleted'));
+  $('#deleteModal').modal('show');
+ }
+
+document.getElementById('deleteCategory')?.addEventListener('click', (e)=>{
+  let id = $('#deleteCategory').data('id');
+  $.ajax({
+    type: "get",
+    url: `/admin/product-management/category/delete/${id}`,
+    dataType: "html",
+    success: function (response) {
+      location.reload();
+    }
+  });
+});

@@ -10,6 +10,7 @@
 <body>
   <th:block layout:fragment="plugin">
     <th:block th:replace="~{admin/category/SaveForm}"></th:block>
+    <th:block th:replace="~{fragments/DeleteConfirmation}"></th:block>
     <script src="/js/admin/category.js"></script>
   </th:block>
   <div layout:fragment="content" class="mb-5">
@@ -82,8 +83,13 @@
             data-name=${category.name},
             data-description=${category.description},
             data-slug=${category.slug},
-            data-deleted=${category.isDeleted}" onclick="editForm(this)">Edit</button>
-            <button type="button" class="btn btn-sm btn-danger">Hapus</button>
+            data-deleted=${category.isDeleted}" onclick="editForm(this)"><i
+                class="material-icons fs-5">edit</i></button>
+            <button type="button" class="btn btn-sm btn-danger" th:attr="data-id=${category.id},
+            data-name=${category.name},
+            data-slug=${category.slug},
+            data-deleted=${category.isDeleted}" onclick="deleteData(this)"><i
+                class="material-icons fs-5">delete</i></button>
           </td>
         </tr>
       </tbody>

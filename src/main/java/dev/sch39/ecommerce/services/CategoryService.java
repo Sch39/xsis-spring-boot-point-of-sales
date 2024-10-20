@@ -14,4 +14,6 @@ public interface CategoryService {
   CategoryEntity save(CategoryEntity category);
 
   CategoryEntity findById(Long id);
+
+  void deleteById(Long id);
 }

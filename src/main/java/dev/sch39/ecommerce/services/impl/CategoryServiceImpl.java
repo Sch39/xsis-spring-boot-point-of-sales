@@ -51,4 +51,11 @@ public class CategoryServiceImpl implements CategoryService {
     return categoryRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
   }
 
+  @Override
+  public void deleteById(Long id) {
+    CategoryEntity categoryEntity = categoryRepository.findById(id)
+        .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
+    categoryRepository.delete(categoryEntity);
+  }
+
 }

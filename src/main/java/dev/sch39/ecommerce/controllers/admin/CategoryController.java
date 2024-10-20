@@ -75,4 +75,9 @@ public class CategoryController {
     return "redirect:/admin/product-management/category";
   }
 
+  @GetMapping("/delete/{id}")
+  public String deleteCategory(@PathVariable("id") Long id) {
+    categoryService.deleteById(id);
+    return "redirect:/admin/product-management/category";
+  }
 }

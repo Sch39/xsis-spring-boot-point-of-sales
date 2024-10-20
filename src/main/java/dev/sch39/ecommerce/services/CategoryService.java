@@ -12,4 +12,6 @@ public interface CategoryService {
   List<CategoryEntity> searchByText(String search);
 
   CategoryEntity save(CategoryEntity category);
+
+  CategoryEntity findById(Long id);
 }

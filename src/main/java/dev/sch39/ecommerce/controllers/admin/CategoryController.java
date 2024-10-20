@@ -17,6 +17,7 @@ import dev.sch39.ecommerce.services.CategoryService;
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
@@ -55,7 +56,6 @@ public class CategoryController {
 
   @PostMapping("/create")
   public String createCategory(@Valid CreateCategoryRequestDto categoryDto, BindingResult result, Model model) {
-    System.out.println("\n\nisDeleted: " + categoryDto.isDeleted());
     if (!result.hasErrors()) {
       CategoryEntity category = new CategoryEntity();
       category.setName(categoryDto.getName());
@@ -63,6 +63,14 @@ public class CategoryController {
       category.setDescription(categoryDto.getDescription());
       category.setDeleted(categoryDto.isDeleted());
       categoryService.save(category);
+    }
+    return "redirect:/admin/product-management/category";
+  }
+
+  @PostMapping("/update/{id}")
+  public String updateCategory(@PathVariable("id") Long id, CategoryEntity categoryEntity, BindingResult result) {
+    if (!result.hasErrors()) {
+      categoryService.save(categoryEntity);
     }
     return "redirect:/admin/product-management/category";
   }

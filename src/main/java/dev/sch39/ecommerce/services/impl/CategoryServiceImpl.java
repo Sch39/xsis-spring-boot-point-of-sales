@@ -46,4 +46,9 @@ public class CategoryServiceImpl implements CategoryService {
     return categoryRepository.save(category);
   }
 
+  @Override
+  public CategoryEntity findById(Long id) {
+    return categoryRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
+  }
+
 }

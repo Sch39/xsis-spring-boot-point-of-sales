@@ -78,7 +78,11 @@
           <td><input disabled type="checkbox" th:checked="${category.isDeleted}"></td>
           <td>
             <!-- Tombol Edit dan Hapus -->
-            <button type="button" class="btn btn-sm btn-warning">Edit</button>
+            <button type="button" class="btn btn-sm btn-warning" th:attr="data-id=${category.id},
+            data-name=${category.name},
+            data-description=${category.description},
+            data-slug=${category.slug},
+            data-deleted=${category.isDeleted}" onclick="editForm(this)">Edit</button>
             <button type="button" class="btn btn-sm btn-danger">Hapus</button>
           </td>
         </tr>

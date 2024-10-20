@@ -1,5 +1,8 @@
 package dev.sch39.ecommerce.entities;
 
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.ParamDef;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
@@ -17,7 +20,9 @@ import lombok.EqualsAndHashCode;
 @Entity
 @Table(name = "categories")
 @SQLDelete(sql = "update categories set is_deleted=true where id=?")
-@SQLRestriction("is_deleted=false")
+// @SQLRestriction("is_deleted=false")
+@FilterDef(name = "deleteCategoryFilter", parameters = @ParamDef(name = "isDeleted", type = Boolean.class))
+@Filter(name = "deleteCategoryFilter", condition = "is_deleted = :isDeleted")
 public class CategoryEntity extends BaseEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

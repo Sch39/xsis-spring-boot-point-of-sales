@@ -7,10 +7,10 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @ControllerAdvice
 public class GlobalController {
-  @ModelAttribute("servlet")
-  HttpServletRequest getRequestServlet(HttpServletRequest request) {
-    return request;
-  }
+  // @ModelAttribute("servlet")
+  // HttpServletRequest getRequestServlet(HttpServletRequest request) {
+  // return request;
+  // }
 
   @ModelAttribute("normalizedUrl")
   String getNormalizedUrl(HttpServletRequest request) {

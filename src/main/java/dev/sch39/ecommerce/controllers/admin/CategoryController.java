@@ -46,7 +46,7 @@ public class CategoryController {
     }
     model.addAttribute("categories", categoryResponseDtos);
     // model.addAttribute("servletPath", request.getServletPath());
-    return "admin/Category";
+    return "admin/category/index";
   }
 
 }

@@ -139,7 +139,7 @@ let sidebarSelectorColorKey = 'sidebarSelectorColor';
 
 //Set Sidebar Color
 function sidebarColor(color) {
-  let parent = document.querySelector(".nav-link.active");
+  let parent = document.querySelectorAll(".nav-link.active");
   let buttonElmActived = document.querySelector(".navbar-color.active");
   if (!buttonElmActived?.classList.contains(color)) {
     buttonElmActived?.classList.remove('active', 'border', 'border-2');
@@ -157,13 +157,17 @@ function sidebarColor(color) {
   ];
 
   colorClassArr.forEach((colorClass)=>{
-    if (parent?.classList.contains(colorClass)) {
-      parent.classList.remove(colorClass)
-    }
+    parent.forEach((el)=>{
+      if (el?.classList.contains(colorClass)) {
+        el.classList.remove(colorClass)
+      }
+    });
   });
 
   localStorage.setItem(sidebarSelectorColorKey, color);
-  parent.classList.add(color);
+  parent.forEach((el)=>{
+      el.classList.add(color)
+  });
 }
 
 if (!localStorage.getItem(sidebarSelectorColorKey)) {
@@ -739,8 +743,8 @@ function darkMode(el) {
     hr: document.querySelectorAll('div:not(.sidenav) > hr'),
     hr_card: document.querySelectorAll('div:not(.bg-gradient-dark) hr'),
     text_btn: document.querySelectorAll('button:not(.btn) > .text-dark'),
-    text_span: document.querySelectorAll('span.text-dark, .breadcrumb .text-dark'),
-    text_span_white: document.querySelectorAll('span.text-white, .breadcrumb .text-white'),
+    text_span: document.querySelectorAll('span.text-dark:not(.navbar-brand *), .breadcrumb .text-dark'),
+    text_span_white: document.querySelectorAll('span.text-white:not(.navbar-brand *), .breadcrumb .text-white'),
     text_strong: document.querySelectorAll('strong.text-dark'),
     text_strong_white: document.querySelectorAll('strong.text-white'),
     text_nav_link: document.querySelectorAll('a.nav-link.text-dark'),
@@ -753,6 +757,12 @@ function darkMode(el) {
     card_border: document.querySelectorAll('.card.border'),
     card_border_dark: document.querySelectorAll('.card.border.border-dark'),
     svg: document.querySelectorAll('g'),
+    sidenav_btn_bg_white : document.querySelectorAll('.sidenav-btn.bg-gray-100'),
+    sidenav_btn_bg_dark : document.querySelectorAll('.sidenav-btn.bg-gray-600'),
+    sidenav_btn_text_white : document.querySelectorAll('.sidenav-btn.text-white'),
+    sidenav_btn_text_dark : document.querySelectorAll('.sidenav-btn.text-dark'),
+    navbar_brand_text_white : document.querySelectorAll('.navbar-brand .text-white'),
+    navbar_brand_text_dark : document.querySelectorAll('.navbar-brand .text-dark'),
   };
 
   if (el.checked) {
@@ -760,7 +770,8 @@ function darkMode(el) {
     toggleClass(elements.hr, 'light', 'dark');
     toggleClass(elements.hr_card, 'light', 'dark');
     toggleClass(elements.text_btn, 'text-white', 'text-dark');
-    toggleClass(elements.text_span_white, 'text-white', 'text-dark');
+    toggleClass(elements.text_span, 'text-dark', 'text-white');
+
     toggleClass(elements.text_strong_white, 'text-white', 'text-dark');
     toggleClass(elements.text_nav_link_white, 'text-white', 'text-dark');
     toggleClass(elements.secondary, 'text-white', 'text-dark');
@@ -770,14 +781,16 @@ function darkMode(el) {
     toggleAttributes(elements.svg, 'fill', '#252f40');
     toggleClass(elements.btn_text_white, 'text-white', 'text-dark');
     elements.card_border_dark.forEach(el => el.classList.remove('border-dark'));
-
+    // toggleClass(elements.sidenav_btn_bg_white, 'bg-gray-100', 'bg-gray-600');
+    // toggleClass(elements.sidenav_btn_text_dark, 'text-dark', 'text-white');
+    toggleClass(elements.navbar_brand_text_white, 'text-white', 'text-dark');
     el.checked=true;
   } else {
     body.classList.remove('dark-version');
     toggleClass(elements.hr, 'dark', 'light');
     toggleClass(elements.hr_card, 'dark', 'light');
     toggleClass(elements.text_btn, 'text-dark', 'text-white');
-    toggleClass(elements.text_span, 'text-dark', 'text-white');
+    toggleClass(elements.text_span_white, 'text-white', 'text-dark');
     toggleClass(elements.text_strong, 'text-dark', 'text-white');
     toggleClass(elements.text_nav_link, 'text-dark', 'text-white');
     toggleClass(elements.secondary, 'text-secondary', 'text-white');
@@ -786,6 +799,9 @@ function darkMode(el) {
     toggleClass(elements.btn_text_dark, 'text-dark', 'text-white');
     toggleAttributes(elements.svg, 'fill', '#fff');
     elements.card_border.forEach(el => el.classList.add('border-dark'));
+    // toggleClass(elements.sidenav_btn_bg_dark, 'bg-gray-600', 'bg-gray-100');
+    // toggleClass(elements.sidenav_btn_text_white, 'text-white', 'text-dark');
+    toggleClass(elements.navbar_brand_text_dark, 'text-dark', 'text-white');
 
     el.checked=false;
   }

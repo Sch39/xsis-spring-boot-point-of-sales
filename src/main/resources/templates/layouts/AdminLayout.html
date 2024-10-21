@@ -26,7 +26,9 @@
 <body class="bg-gray-200 g-sidenav-show" id="sidenavShow">
   <aside th:replace="~{fragments/SideNavbar}"></aside>
   <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
-    <nav th:replace="~{fragments/Navbar}"></nav>
+    <nav
+      th:replace="~{fragments/Navbar::navbar(breadcrumbTitle='Kategori', breadcrumbPath='Admin/Produk Manajemen/Kategori')}">
+    </nav>
     <div class="container-fluid py-4">
       <th:block layout:fragment="content"></th:block>
       <th:block th:replace="~{fragments/Footer}">

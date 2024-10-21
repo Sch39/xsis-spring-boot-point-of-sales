@@ -83,7 +83,7 @@
             <!-- Tombol Edit dan Hapus -->
             <button type="button" class="btn btn-sm btn-warning" th:attr="data-id=${product.id},
             data-name=${product.name},
-            
+            data-category-id=${product.categoryId},
             data-slug=${product.slug},
             data-deleted=${product.isDeleted}" onclick="editForm(this)"><i
                 class="material-icons fs-5">edit</i></button>

@@ -23,7 +23,7 @@ public class ProductFactoryImpl implements Factory {
   public void run() {
     List<ProductEntity> productList = new ArrayList<>();
     for (Long i = 1L; i <= 5; i++) {
-      for (int j = 1; j <= 6; j++) {
+      for (int j = 1; j <= 3; j++) {
         ProductEntity productEntity = new ProductEntity();
         productEntity.setName(faker.commerce().productName());
         productEntity.setSlug(faker.internet().slug());

@@ -9,7 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import dev.sch39.ecommerce.entities.CategoryEntity;
 import dev.sch39.ecommerce.entities.ProductEntity;
 import dev.sch39.ecommerce.services.CategoryService;
 import dev.sch39.ecommerce.services.ProductService;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 @RequestMapping("/admin/product-management/product")

@@ -47,7 +47,9 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link text-white" href="/admin/product-management/stock-and-inventory">
+              <a class="nav-link text-white"
+                th:classappend="${normalizedUrl.equals('/admin/product-management/variant')?'active':''}"
+                href="/admin/product-management/variant">
                 <span class="sidenav-normal"> Stok & Inventori </span>
               </a>
             </li>

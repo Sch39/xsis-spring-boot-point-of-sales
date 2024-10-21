@@ -46,6 +46,7 @@
 
 <body>
   <th:block layout:fragment="plugin">
+    <th:block th:replace="~{admin/variant/SaveForm}"></th:block>
     <th:block th:replace="~{fragments/DeleteConfirmation}"></th:block>
     <script src="/js/admin/variant.js"></script>
   </th:block>
@@ -120,6 +121,11 @@
             <td><input disabled type="checkbox" th:checked="${variant.isDeleted}"></td>
             <td>
               <button type="button" class="btn btn-sm btn-warning" th:attr="data-id=${variant.id}, data-name=${variant.name},
+              data-description=${variant.description},
+              data-price=${variant.price},
+              data-stock=${variant.stock},
+              data-product-id=${variant.productId},
+              data-category-id=${variant.product.categoryId},
               data-slug=${variant.slug}, data-deleted=${variant.isDeleted}" onclick="editForm(this)"><i
                   class="material-icons fs-5">edit</i></button>
               <button type="button" class="btn btn-sm btn-danger" th:attr="data-id=${variant.id}, data-name=${variant.name},

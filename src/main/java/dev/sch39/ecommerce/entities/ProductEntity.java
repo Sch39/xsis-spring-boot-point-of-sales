@@ -5,7 +5,6 @@ import org.hibernate.annotations.FilterDef;
 import org.hibernate.annotations.ParamDef;
 import org.hibernate.annotations.SQLDelete;
 
-import groovy.transform.EqualsAndHashCode;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -17,7 +16,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 
-@EqualsAndHashCode(callSuper = true)
+@lombok.EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
 @Table(name = "products")

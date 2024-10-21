@@ -37,15 +37,15 @@ function clearForm() {
  }
 
  function deleteData(el){
-  $('#deleteCategory').attr('data-id', $(el).data('id'));
+  $('#deleteModalButton').attr('data-id', $(el).data('id'));
   $('#deleteName').text($(el).data('name'));
   $('#deleteSlug').text($(el).data('slug'));
   $('#deleteActive').prop('checked', $(el).data('deleted'));
   $('#deleteModal').modal('show');
  }
 
-document.getElementById('deleteCategory')?.addEventListener('click', (e)=>{
-  let id = $('#deleteCategory').data('id');
+document.getElementById('deleteModalButton')?.addEventListener('click', (e)=>{
+  let id = $('#deleteModalButton').data('id');
   $.ajax({
     type: "get",
     url: `/admin/product-management/category/delete/${id}`,

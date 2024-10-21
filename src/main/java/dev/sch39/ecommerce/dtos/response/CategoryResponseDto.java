@@ -8,5 +8,5 @@ public class CategoryResponseDto {
   private String name;
   private String description;
   private String slug;
-  private boolean isDeleted;
+  private boolean deleted;
 }

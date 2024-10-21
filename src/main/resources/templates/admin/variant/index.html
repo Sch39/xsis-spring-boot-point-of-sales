@@ -46,7 +46,8 @@
 
 <body>
   <th:block layout:fragment="plugin">
-    <script src="/js/admin/product.js"></script>
+    <th:block th:replace="~{fragments/DeleteConfirmation}"></th:block>
+    <script src="/js/admin/variant.js"></script>
   </th:block>
   <div layout:fragment="content" class="mb-5">
     <div class="d-flex justify-content-between mb-3" data-bs-theme="light">

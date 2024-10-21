@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import dev.sch39.ecommerce.entities.VariantEntity;
@@ -13,6 +14,9 @@ import dev.sch39.ecommerce.services.CategoryService;
 import dev.sch39.ecommerce.services.ProductService;
 import dev.sch39.ecommerce.services.VariantService;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -46,4 +50,17 @@ public class VariantController {
     return "admin/variant/index";
   }
 
+  @GetMapping("/delete/{id}")
+  public String deleteVariant(@PathVariable("id") Long id) {
+    variantService.deleteById(id);
+    return "redirect:/admin/product-management/variant";
+  }
+
+  @PostMapping("/save")
+  public String saveVariant(@ModelAttribute VariantEntity variantEntity, BindingResult result) {
+    if (!result.hasErrors()) {
+      variantService.save(variantEntity);
+    }
+    return "redirect:/admin/product-management/variant";
+  }
 }

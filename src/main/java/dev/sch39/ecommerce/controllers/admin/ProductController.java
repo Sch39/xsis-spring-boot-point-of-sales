@@ -51,15 +51,15 @@ public class ProductController {
   }
 
   @PostMapping("/save")
-  public String postMethodName(@ModelAttribute ProductEntity productEntity, BindingResult result) {
+  public String saveProduct(@ModelAttribute ProductEntity productEntity, BindingResult result) {
     if (!result.hasErrors()) {
       productService.save(productEntity);
     }
     return "redirect:/admin/product-management/product";
   }
 
-  @GetMapping("delete/{id}")
-  public String getMethodName(@PathVariable("id") Long id) {
+  @GetMapping("/delete/{id}")
+  public String deleteProduct(@PathVariable("id") Long id) {
     productService.deleteById(id);
     return "redirect:/admin/product-management/product";
   }

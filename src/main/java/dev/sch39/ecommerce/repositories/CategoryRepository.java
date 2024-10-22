@@ -1,6 +1,7 @@
 package dev.sch39.ecommerce.repositories;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -14,5 +15,8 @@ public interface CategoryRepository extends JpaRepository<CategoryEntity, Long> 
   List<CategoryEntity> searchByText(String search);
 
   @Query(value = "select * from categories where slug=?1 and is_deleted=false", nativeQuery = true)
-  CategoryEntity findBySlug(String slug);
+  Optional<CategoryEntity> findBySlug(String slug);
+
+  @Query(value = "update categories set is_deleted=true where slug=?1 and is_deleted=false", nativeQuery = true)
+  void deleteBySlug(String slug);
 }

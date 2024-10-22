@@ -48,19 +48,29 @@ public class CategoryServiceImpl implements CategoryService {
 
   @Override
   public CategoryEntity findById(Long id) {
-    return categoryRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
+    return categoryRepository.findById(id)
+        .orElseThrow(() -> new IllegalArgumentException("Invalid category id: " + id));
   }
 
   @Override
   public void deleteById(Long id) {
     CategoryEntity categoryEntity = categoryRepository.findById(id)
-        .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
+        .orElseThrow(() -> new IllegalArgumentException("Invalid category id: " + id));
     categoryRepository.delete(categoryEntity);
   }
 
   @Override
   public CategoryEntity getCategoryBySlug(String slug) {
-    return categoryRepository.findBySlug(slug);
+    return categoryRepository.findBySlug(slug)
+        .orElseThrow(() -> new IllegalArgumentException("Invalid category slug: " + slug));
+  }
+
+  @Override
+  public void deleteCategoryBySlug(String slug) {
+    CategoryEntity categoryEntity = categoryRepository.findBySlug(slug)
+        .orElseThrow(() -> new IllegalArgumentException("Invalid category slug: " + slug));
+
+    categoryRepository.delete(categoryEntity);
   }
 
 }

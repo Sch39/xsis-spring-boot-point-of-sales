@@ -15,6 +15,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -62,7 +63,9 @@ public class RestCategoryController {
     try {
       CategoryEntity category = categoryService.getCategoryBySlug(slug);
       RestCategoryResponseDto dto = new RestCategoryResponseDto();
-
+      if (category == null) {
+        throw new Exception("Data not found for slug: " + slug);
+      }
       dto.setId(category.getId());
       dto.setName(category.getName());
       dto.setDescription(category.getDescription());
@@ -84,4 +87,23 @@ public class RestCategoryController {
     }
   }
 
+  @DeleteMapping({ "{slug}", "{slug}/" })
+  public ResponseEntity<ApiResponse<?>> deleteCategoryBySlug(@PathVariable("slug") String slug) {
+    ApiResponse<?> apiResponse = new ApiResponse<>();
+
+    try {
+      categoryService.deleteCategoryBySlug(slug);
+      apiResponse.setSuccess(true);
+      apiResponse.setMessage("Category deleted successfully");
+
+      return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    } catch (Exception e) {
+      ErrorApiResponse<?> errorApiResponse = new ErrorApiResponse<>();
+      errorApiResponse.setSuccess(false);
+      errorApiResponse.setMessage(e.getMessage());
+      errorApiResponse.setErrorCode(e.hashCode());
+
+      return new ResponseEntity<>(errorApiResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
 }

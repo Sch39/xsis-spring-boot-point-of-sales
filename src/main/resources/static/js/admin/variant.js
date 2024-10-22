@@ -20,6 +20,14 @@ function editForm(el) {
   slug = $(el).data('slug'),
   deleted = $(el).data('deleted');
 
+  let productListItems = document.querySelectorAll('.product-list-item');
+
+  productListItems.forEach((el)=>{
+      if ($(el).data('category-id') == categoryId) {
+        el.classList.remove('d-none');
+      }
+  });
+
   $('#modalTitle').text('Edit Produk '+ name);
   $('#modalDesc').text('Silahkan berikan detail produk');
   $('#saveForm').attr('action', '/admin/product-management/variant/save');

@@ -18,6 +18,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("/api/admin/categories")
@@ -106,4 +108,32 @@ public class RestCategoryController {
       return new ResponseEntity<>(errorApiResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
+
+  @PostMapping({ "", "/" })
+  public ResponseEntity<ApiResponse<?>> createCategory(@RequestBody RestCategoryResponseDto categoryResponseDto) {
+    ApiResponse<CategoryEntity> apiResponse = new ApiResponse<>();
+
+    try {
+      CategoryEntity categoryEntity = new CategoryEntity();
+      categoryEntity.setName(categoryResponseDto.getName());
+      categoryEntity.setDescription(categoryResponseDto.getDescription());
+      categoryEntity.setSlug(categoryResponseDto.getSlug());
+      categoryEntity.setDeleted(false);
+
+      categoryService.save(categoryEntity);
+      apiResponse.setSuccess(true);
+      apiResponse.setMessage("Created category successfully");
+      apiResponse.setData(categoryEntity);
+      return new ResponseEntity<>(apiResponse, HttpStatus.CREATED);
+    } catch (Exception e) {
+      ErrorApiResponse<?> errorApiResponse = new ErrorApiResponse<>();
+      errorApiResponse.setSuccess(false);
+      errorApiResponse.setMessage(e.getMessage());
+      errorApiResponse.setErrorCode(e.hashCode());
+
+      return new ResponseEntity<>(errorApiResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+  }
+
 }

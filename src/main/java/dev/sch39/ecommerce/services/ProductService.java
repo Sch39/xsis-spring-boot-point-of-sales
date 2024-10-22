@@ -13,5 +13,7 @@ public interface ProductService {
 
   ProductEntity findById(Long id);
 
+  ProductEntity getProductBySlug(String slug);
+
   void deleteById(Long id);
 }

@@ -42,14 +42,21 @@ public class ProductServiceImpl implements ProductService {
 
   @Override
   public ProductEntity findById(Long id) {
-    return productRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
+    return productRepository.findById(id)
+        .orElseThrow(() -> new IllegalArgumentException("Product Id:" + id + " not found"));
   }
 
   @Override
   public void deleteById(Long id) {
     ProductEntity productEntity = productRepository.findById(id)
-        .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
+        .orElseThrow(() -> new IllegalArgumentException("Product Id:" + id + " not found"));
     productRepository.delete(productEntity);
+  }
+
+  @Override
+  public ProductEntity getProductBySlug(String slug) {
+    return productRepository.findBySlug(slug)
+        .orElseThrow(() -> new IllegalArgumentException("Product Slug:" + slug + " not found"));
   }
 
 }

@@ -58,4 +58,9 @@ public class CategoryServiceImpl implements CategoryService {
     categoryRepository.delete(categoryEntity);
   }
 
+  @Override
+  public CategoryEntity getCategoryBySlug(String slug) {
+    return categoryRepository.findBySlug(slug);
+  }
+
 }

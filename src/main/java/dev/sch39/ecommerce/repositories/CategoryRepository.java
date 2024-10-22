@@ -12,4 +12,7 @@ import dev.sch39.ecommerce.entities.CategoryEntity;
 public interface CategoryRepository extends JpaRepository<CategoryEntity, Long> {
   @Query(value = "select * from categories where name=?1or description=?1", nativeQuery = true)
   List<CategoryEntity> searchByText(String search);
+
+  @Query(value = "select * from categories where slug=?1 and is_deleted=false", nativeQuery = true)
+  CategoryEntity findBySlug(String slug);
 }

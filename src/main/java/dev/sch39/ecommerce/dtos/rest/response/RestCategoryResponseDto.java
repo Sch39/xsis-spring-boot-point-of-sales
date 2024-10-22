@@ -8,6 +8,7 @@ import lombok.Data;
 public class RestCategoryResponseDto {
   private Long id;
   private String name;
+  private String description;
   private String slug;
   private LocalDateTime createdAt;
   private LocalDateTime updatedAt;

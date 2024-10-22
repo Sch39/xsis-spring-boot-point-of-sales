@@ -15,5 +15,7 @@ public interface CategoryService {
 
   CategoryEntity findById(Long id);
 
+  CategoryEntity getCategoryBySlug(String slug);
+
   void deleteById(Long id);
 }

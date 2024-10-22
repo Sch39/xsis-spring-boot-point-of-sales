@@ -42,14 +42,20 @@ public class VariantServiceImpl implements VariantService {
 
   @Override
   public VariantEntity findById(Long id) {
-    return variantRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
+    return variantRepository.findById(id)
+        .orElseThrow(() -> new IllegalArgumentException("Variant Id: " + id + " not found"));
   }
 
   @Override
   public void deleteById(Long id) {
     VariantEntity variantEntity = variantRepository.findById(id)
-        .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
+        .orElseThrow(() -> new IllegalArgumentException("Variant Id: " + id + " not found"));
     variantRepository.delete(variantEntity);
   }
 
+  @Override
+  public VariantEntity getVariantBySlug(String slug) {
+    return variantRepository.findBySlug(slug)
+        .orElseThrow(() -> new IllegalArgumentException("Variant Slug: " + slug + " not found"));
+  }
 }

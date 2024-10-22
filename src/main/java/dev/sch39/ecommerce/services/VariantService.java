@@ -13,5 +13,7 @@ public interface VariantService {
 
   VariantEntity findById(Long id);
 
+  VariantEntity getVariantBySlug(String slug);
+
   void deleteById(Long id);
 }

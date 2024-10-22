@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
@@ -136,4 +137,30 @@ public class RestCategoryController {
 
   }
 
+  @PutMapping({ "{slug}", "{slug}/" })
+  public ResponseEntity<ApiResponse<?>> updateCategoryBySlug(@PathVariable("slug") String slug,
+      @RequestBody RestCategoryResponseDto categoryResponseDto) {
+    ApiResponse<CategoryEntity> apiResponse = new ApiResponse<>();
+
+    try {
+      CategoryEntity categoryEntity = categoryService.getCategoryBySlug(slug);
+      categoryEntity.setName(categoryResponseDto.getName());
+      categoryEntity.setDescription(categoryResponseDto.getDescription());
+      categoryEntity.setSlug(categoryResponseDto.getSlug());
+
+      categoryService.save(categoryEntity);
+      apiResponse.setSuccess(true);
+      apiResponse.setMessage("Updated category successfully");
+      apiResponse.setData(categoryEntity);
+
+      return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    } catch (Exception e) {
+      ErrorApiResponse<?> errorApiResponse = new ErrorApiResponse<>();
+      errorApiResponse.setSuccess(false);
+      errorApiResponse.setMessage(e.getMessage());
+      errorApiResponse.setErrorCode(e.hashCode());
+
+      return new ResponseEntity<>(errorApiResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
 }

@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.sch39.ecommerce.dtos.rest.request.RestCategoryAdminFilterRequestDto;
+import dev.sch39.ecommerce.dtos.rest.request.RestCategoryRequestDto;
 import dev.sch39.ecommerce.dtos.rest.response.RestCategoryAdminResponseDto;
 import dev.sch39.ecommerce.dtos.rest.response.RestCategoryUserResponseDto;
 import dev.sch39.ecommerce.entities.CategoryEntity;
@@ -31,12 +32,33 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequestMapping("/api/admin/categories")
 public class RestCategoryController {
   @Autowired
-  RestCategoryService categoryService;
+  RestCategoryService restCategoryService;
+
+  @PostMapping({ "", "/" })
+  public ResponseEntity<ApiResponse> createCategory(@RequestBody RestCategoryRequestDto requestDto) {
+    try {
+      RestCategoryAdminResponseDto responseDto = restCategoryService.createCategory(requestDto);
+      SuccessApiResponse<RestCategoryAdminResponseDto> apiResponse = new SuccessApiResponse<>();
+      apiResponse.setSuccess(true);
+      apiResponse.setMessage("Created category successfully");
+      apiResponse.setData(responseDto);
+      return new ResponseEntity<>(apiResponse, HttpStatus.CREATED);
+    } catch (Exception e) {
+      ErrorApiResponse<Void> errorApiResponse = new ErrorApiResponse<>();
+      errorApiResponse.setSuccess(false);
+      errorApiResponse.setMessage(e.getMessage());
+
+      return new ResponseEntity<>(errorApiResponse,
+          HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+  }
 
   @GetMapping({ "", "/" })
   public ResponseEntity<ApiResponse> getAllCategories(RestCategoryAdminFilterRequestDto queryDto) {
     try {
-      List<RestCategoryAdminResponseDto> responseDtos = categoryService.getAllCategoriesForAdminByQueryParam(queryDto);
+      List<RestCategoryAdminResponseDto> responseDtos = restCategoryService
+          .getAllCategoriesForAdminByQueryParam(queryDto);
 
       SuccessApiResponse<List<RestCategoryAdminResponseDto>> apiResponse = new SuccessApiResponse<>();
       apiResponse.setSuccess(true);
@@ -55,7 +77,7 @@ public class RestCategoryController {
   @GetMapping({ "{id}", "{id}/" })
   public ResponseEntity<ApiResponse> getCategoryById(@PathVariable("id") Long id) {
     try {
-      RestCategoryAdminResponseDto responseDto = categoryService.getCategoryByIdForAdmin(id);
+      RestCategoryAdminResponseDto responseDto = restCategoryService.getCategoryByIdForAdmin(id);
 
       SuccessApiResponse<RestCategoryAdminResponseDto> apiResponse = new SuccessApiResponse<>();
       apiResponse.setSuccess(true);
@@ -78,7 +100,7 @@ public class RestCategoryController {
   // ApiResponse<?> apiResponse = new ApiResponse<>();
 
   // try {
-  // categoryService.deleteCategoryBySlug(slug);
+  // restCategoryService.deleteCategoryBySlug(slug);
   // apiResponse.setSuccess(true);
   // apiResponse.setMessage("Category deleted successfully");
 
@@ -92,35 +114,6 @@ public class RestCategoryController {
   // return new ResponseEntity<>(errorApiResponse,
   // HttpStatus.INTERNAL_SERVER_ERROR);
   // }
-  // }
-
-  // @PostMapping({ "", "/" })
-  // public ResponseEntity<ApiResponse<?>> createCategory(@RequestBody
-  // RestCategoryUserResponseDto categoryResponseDto) {
-  // ApiResponse<CategoryEntity> apiResponse = new ApiResponse<>();
-
-  // try {
-  // CategoryEntity categoryEntity = new CategoryEntity();
-  // categoryEntity.setName(categoryResponseDto.getName());
-  // categoryEntity.setDescription(categoryResponseDto.getDescription());
-  // categoryEntity.setSlug(categoryResponseDto.getSlug());
-  // categoryEntity.setDeleted(false);
-
-  // categoryService.save(categoryEntity);
-  // apiResponse.setSuccess(true);
-  // apiResponse.setMessage("Created category successfully");
-  // apiResponse.setData(categoryEntity);
-  // return new ResponseEntity<>(apiResponse, HttpStatus.CREATED);
-  // } catch (Exception e) {
-  // ErrorApiResponse<?> errorApiResponse = new ErrorApiResponse<>();
-  // errorApiResponse.setSuccess(false);
-  // errorApiResponse.setMessage(e.getMessage());
-  // errorApiResponse.setErrorCode(e.hashCode());
-
-  // return new ResponseEntity<>(errorApiResponse,
-  // HttpStatus.INTERNAL_SERVER_ERROR);
-  // }
-
   // }
 
   // @PutMapping({ "{slug}", "{slug}/" })

@@ -6,14 +6,11 @@ import org.springframework.web.bind.annotation.RestController;
 import dev.sch39.ecommerce.dtos.rest.request.RestCategoryAdminFilterRequestDto;
 import dev.sch39.ecommerce.dtos.rest.request.RestCategoryRequestDto;
 import dev.sch39.ecommerce.dtos.rest.response.RestCategoryAdminResponseDto;
-import dev.sch39.ecommerce.dtos.rest.response.RestCategoryUserResponseDto;
-import dev.sch39.ecommerce.entities.CategoryEntity;
 import dev.sch39.ecommerce.services.rest.RestCategoryService;
 import dev.sch39.ecommerce.utils.ApiResponse;
 import dev.sch39.ecommerce.utils.ErrorApiResponse;
 import dev.sch39.ecommerce.utils.SuccessApiResponse;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;

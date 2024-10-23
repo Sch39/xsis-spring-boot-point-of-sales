@@ -34,14 +34,14 @@ public class RestCategoryController {
   RestCategoryService categoryService;
 
   @GetMapping({ "", "/" })
-  public ResponseEntity<ApiResponse> getAllCategory(RestCategoryAdminFilterRequestDto queryDto) {
+  public ResponseEntity<ApiResponse> getAllCategories(RestCategoryAdminFilterRequestDto queryDto) {
     try {
-      List<RestCategoryAdminResponseDto> dtos = categoryService.getAllCategoriesForAdminByQueryParam(queryDto);
+      List<RestCategoryAdminResponseDto> responseDtos = categoryService.getAllCategoriesForAdminByQueryParam(queryDto);
 
       SuccessApiResponse<List<RestCategoryAdminResponseDto>> apiResponse = new SuccessApiResponse<>();
       apiResponse.setSuccess(true);
       apiResponse.setMessage("Success get all category");
-      apiResponse.setData(dtos);
+      apiResponse.setData(responseDtos);
 
       return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     } catch (Exception e) {
@@ -52,37 +52,25 @@ public class RestCategoryController {
     }
   }
 
-  // @GetMapping({ "{slug}", "{slug}/" })
-  // public ResponseEntity<ApiResponse<?>> getCategoryBySlug(@PathVariable("slug")
-  // String slug) {
-  // ApiResponse<RestCategoryUserResponseDto> apiResponse = new ApiResponse<>();
-  // try {
-  // CategoryEntity category = categoryService.getCategoryBySlug(slug);
-  // RestCategoryUserResponseDto dto = new RestCategoryUserResponseDto();
-  // if (category == null) {
-  // throw new Exception("Data not found for slug: " + slug);
-  // }
-  // dto.setId(category.getId());
-  // dto.setName(category.getName());
-  // dto.setDescription(category.getDescription());
-  // dto.setSlug(category.getSlug());
-  // dto.setCreatedAt(category.getCreatedAt());
-  // dto.setUpdatedAt(category.getUpdatedAt());
+  @GetMapping({ "{id}", "{id}/" })
+  public ResponseEntity<ApiResponse> getCategoryById(@PathVariable("id") Long id) {
+    try {
+      RestCategoryAdminResponseDto responseDto = categoryService.getCategoryByIdForAdmin(id);
 
-  // apiResponse.setSuccess(true);
-  // apiResponse.setMessage("Success get category");
-  // apiResponse.setData(dto);
+      SuccessApiResponse<RestCategoryAdminResponseDto> apiResponse = new SuccessApiResponse<>();
+      apiResponse.setSuccess(true);
+      apiResponse.setMessage("Success get category");
+      apiResponse.setData(responseDto);
 
-  // return new ResponseEntity<>(apiResponse, HttpStatus.OK);
-  // } catch (Exception e) {
-  // ErrorApiResponse<?> errorApiResponse = new ErrorApiResponse<>();
-  // errorApiResponse.setSuccess(false);
-  // errorApiResponse.setMessage(e.getMessage());
-  // errorApiResponse.setErrorCode(e.hashCode());
-  // return new ResponseEntity<>(errorApiResponse,
-  // HttpStatus.INTERNAL_SERVER_ERROR);
-  // }
-  // }
+      return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    } catch (Exception e) {
+      ErrorApiResponse<Void> errorApiResponse = new ErrorApiResponse<>();
+      errorApiResponse.setSuccess(false);
+      errorApiResponse.setMessage(e.getMessage());
+      return new ResponseEntity<>(errorApiResponse,
+          HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
 
   // @DeleteMapping({ "{slug}", "{slug}/" })
   // public ResponseEntity<ApiResponse<?>>

@@ -116,25 +116,23 @@ public class RestCategoryController {
     }
   }
 
-  // @DeleteMapping({ "{slug}", "{slug}/" })
-  // public ResponseEntity<ApiResponse<?>>
-  // deleteCategoryBySlug(@PathVariable("slug") String slug) {
-  // ApiResponse<?> apiResponse = new ApiResponse<>();
+  @DeleteMapping({ "{id}", "{id}/" })
+  public ResponseEntity<ApiResponse> deleteCategoryById(@PathVariable("id") Long id) {
 
-  // try {
-  // restCategoryService.deleteCategoryBySlug(slug);
-  // apiResponse.setSuccess(true);
-  // apiResponse.setMessage("Category deleted successfully");
+    try {
+      restCategoryService.deleteCategoryById(id);
+      ApiResponse apiResponse = new ApiResponse();
+      apiResponse.setSuccess(true);
+      apiResponse.setMessage("Category deleted successfully");
 
-  // return new ResponseEntity<>(apiResponse, HttpStatus.OK);
-  // } catch (Exception e) {
-  // ErrorApiResponse<?> errorApiResponse = new ErrorApiResponse<>();
-  // errorApiResponse.setSuccess(false);
-  // errorApiResponse.setMessage(e.getMessage());
-  // errorApiResponse.setErrorCode(e.hashCode());
+      return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    } catch (Exception e) {
+      ErrorApiResponse<Void> errorApiResponse = new ErrorApiResponse<>();
+      errorApiResponse.setSuccess(false);
+      errorApiResponse.setMessage(e.getMessage());
 
-  // return new ResponseEntity<>(errorApiResponse,
-  // HttpStatus.INTERNAL_SERVER_ERROR);
-  // }
-  // }
+      return new ResponseEntity<>(errorApiResponse,
+          HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
 }

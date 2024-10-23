@@ -94,6 +94,28 @@ public class RestCategoryController {
     }
   }
 
+  @PutMapping({ "{id}", "{id}/" })
+  public ResponseEntity<ApiResponse> updateCategoryById(@PathVariable("id") Long id,
+      @RequestBody RestCategoryRequestDto requestDto) {
+
+    try {
+      RestCategoryAdminResponseDto responseDto = restCategoryService.updateCategoryById(id, requestDto);
+      SuccessApiResponse<RestCategoryAdminResponseDto> apiResponse = new SuccessApiResponse<>();
+      apiResponse.setSuccess(true);
+      apiResponse.setMessage("Updated category successfully");
+      apiResponse.setData(responseDto);
+
+      return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    } catch (Exception e) {
+      ErrorApiResponse<Void> errorApiResponse = new ErrorApiResponse<>();
+      errorApiResponse.setSuccess(false);
+      errorApiResponse.setMessage(e.getMessage());
+
+      return new ResponseEntity<>(errorApiResponse,
+          HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
   // @DeleteMapping({ "{slug}", "{slug}/" })
   // public ResponseEntity<ApiResponse<?>>
   // deleteCategoryBySlug(@PathVariable("slug") String slug) {
@@ -103,35 +125,6 @@ public class RestCategoryController {
   // restCategoryService.deleteCategoryBySlug(slug);
   // apiResponse.setSuccess(true);
   // apiResponse.setMessage("Category deleted successfully");
-
-  // return new ResponseEntity<>(apiResponse, HttpStatus.OK);
-  // } catch (Exception e) {
-  // ErrorApiResponse<?> errorApiResponse = new ErrorApiResponse<>();
-  // errorApiResponse.setSuccess(false);
-  // errorApiResponse.setMessage(e.getMessage());
-  // errorApiResponse.setErrorCode(e.hashCode());
-
-  // return new ResponseEntity<>(errorApiResponse,
-  // HttpStatus.INTERNAL_SERVER_ERROR);
-  // }
-  // }
-
-  // @PutMapping({ "{slug}", "{slug}/" })
-  // public ResponseEntity<ApiResponse<?>>
-  // updateCategoryBySlug(@PathVariable("slug") String slug,
-  // @RequestBody RestCategoryUserResponseDto categoryResponseDto) {
-  // ApiResponse<CategoryEntity> apiResponse = new ApiResponse<>();
-
-  // try {
-  // CategoryEntity categoryEntity = categoryService.getCategoryBySlug(slug);
-  // categoryEntity.setName(categoryResponseDto.getName());
-  // categoryEntity.setDescription(categoryResponseDto.getDescription());
-  // categoryEntity.setSlug(categoryResponseDto.getSlug());
-
-  // categoryService.save(categoryEntity);
-  // apiResponse.setSuccess(true);
-  // apiResponse.setMessage("Updated category successfully");
-  // apiResponse.setData(categoryEntity);
 
   // return new ResponseEntity<>(apiResponse, HttpStatus.OK);
   // } catch (Exception e) {

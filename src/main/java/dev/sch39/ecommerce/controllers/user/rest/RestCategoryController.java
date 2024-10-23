@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import dev.sch39.ecommerce.dtos.rest.response.RestCategoryResponseDto;
+import dev.sch39.ecommerce.dtos.rest.response.RestCategoryUserResponseDto;
 import dev.sch39.ecommerce.entities.CategoryEntity;
 import dev.sch39.ecommerce.services.CategoryService;
 import dev.sch39.ecommerce.utils.ApiResponse;
@@ -24,64 +24,68 @@ public class RestCategoryController {
   @Autowired
   CategoryService categoryService;
 
-  @GetMapping({ "", "/" })
-  public ResponseEntity<ApiResponse<?>> getAll() {
-    ApiResponse<List<RestCategoryResponseDto>> apiResponse = new ApiResponse<>();
-    try {
-      List<CategoryEntity> categories = categoryService.getAllCategory(false);
-      List<RestCategoryResponseDto> dtos = new ArrayList<>();
+  // @GetMapping({ "", "/" })
+  // public ResponseEntity<ApiResponse<?>> getAll() {
+  // ApiResponse<List<RestCategoryUserResponseDto>> apiResponse = new
+  // ApiResponse<>();
+  // try {
+  // List<CategoryEntity> categories = categoryService.getAllCategory(false);
+  // List<RestCategoryUserResponseDto> dtos = new ArrayList<>();
 
-      for (CategoryEntity category : categories) {
-        RestCategoryResponseDto dto = new RestCategoryResponseDto();
-        dto.setId(category.getId());
-        dto.setName(category.getName());
-        dto.setDescription(category.getDescription());
-        dto.setSlug(category.getSlug());
-        dto.setCreatedAt(category.getCreatedAt());
-        dto.setUpdatedAt(category.getUpdatedAt());
+  // for (CategoryEntity category : categories) {
+  // RestCategoryUserResponseDto dto = new RestCategoryUserResponseDto();
+  // dto.setId(category.getId());
+  // dto.setName(category.getName());
+  // dto.setDescription(category.getDescription());
+  // dto.setSlug(category.getSlug());
+  // dto.setCreatedAt(category.getCreatedAt());
+  // dto.setUpdatedAt(category.getUpdatedAt());
 
-        dtos.add(dto);
-      }
-      apiResponse.setSuccess(true);
-      apiResponse.setMessage("Success get all category");
-      apiResponse.setData(dtos);
+  // dtos.add(dto);
+  // }
+  // apiResponse.setSuccess(true);
+  // apiResponse.setMessage("Success get all category");
+  // apiResponse.setData(dtos);
 
-      return new ResponseEntity<>(apiResponse, HttpStatus.OK);
-    } catch (Exception e) {
-      ErrorApiResponse<?> errorApiResponse = new ErrorApiResponse<>();
-      errorApiResponse.setSuccess(false);
-      errorApiResponse.setMessage(e.getMessage());
-      errorApiResponse.setErrorCode(e.hashCode());
-      return new ResponseEntity<>(errorApiResponse, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-  }
+  // return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+  // } catch (Exception e) {
+  // ErrorApiResponse<?> errorApiResponse = new ErrorApiResponse<>();
+  // errorApiResponse.setSuccess(false);
+  // errorApiResponse.setMessage(e.getMessage());
+  // errorApiResponse.setErrorCode(e.hashCode());
+  // return new ResponseEntity<>(errorApiResponse,
+  // HttpStatus.INTERNAL_SERVER_ERROR);
+  // }
+  // }
 
-  @GetMapping({ "{slug}", "{slug}/" })
-  public ResponseEntity<ApiResponse<?>> getBySlug(@PathVariable("slug") String slug) {
-    ApiResponse<RestCategoryResponseDto> apiResponse = new ApiResponse<>();
+  // @GetMapping({ "{slug}", "{slug}/" })
+  // public ResponseEntity<ApiResponse<?>> getBySlug(@PathVariable("slug") String
+  // slug) {
+  // ApiResponse<RestCategoryUserResponseDto> apiResponse = new ApiResponse<>();
 
-    try {
-      CategoryEntity category = categoryService.getCategoryBySlug(slug);
-      RestCategoryResponseDto dto = new RestCategoryResponseDto();
-      dto.setId(category.getId());
-      dto.setName(category.getName());
-      dto.setSlug(category.getSlug());
-      dto.setDescription(category.getDescription());
-      dto.setCreatedAt(category.getCreatedAt());
-      dto.setUpdatedAt(category.getUpdatedAt());
+  // try {
+  // CategoryEntity category = categoryService.getCategoryBySlug(slug);
+  // RestCategoryUserResponseDto dto = new RestCategoryUserResponseDto();
+  // dto.setId(category.getId());
+  // dto.setName(category.getName());
+  // dto.setSlug(category.getSlug());
+  // dto.setDescription(category.getDescription());
+  // dto.setCreatedAt(category.getCreatedAt());
+  // dto.setUpdatedAt(category.getUpdatedAt());
 
-      apiResponse.setSuccess(true);
-      apiResponse.setMessage("Success get category");
-      apiResponse.setData(dto);
+  // apiResponse.setSuccess(true);
+  // apiResponse.setMessage("Success get category");
+  // apiResponse.setData(dto);
 
-      return new ResponseEntity<>(apiResponse, HttpStatus.OK);
-    } catch (Exception e) {
-      ErrorApiResponse<?> errorApiResponse = new ErrorApiResponse<>();
-      errorApiResponse.setSuccess(false);
-      errorApiResponse.setMessage(e.getMessage());
-      errorApiResponse.setErrorCode(e.hashCode());
-      return new ResponseEntity<>(errorApiResponse, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-  }
+  // return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+  // } catch (Exception e) {
+  // ErrorApiResponse<?> errorApiResponse = new ErrorApiResponse<>();
+  // errorApiResponse.setSuccess(false);
+  // errorApiResponse.setMessage(e.getMessage());
+  // errorApiResponse.setErrorCode(e.hashCode());
+  // return new ResponseEntity<>(errorApiResponse,
+  // HttpStatus.INTERNAL_SERVER_ERROR);
+  // }
+  // }
 
 }

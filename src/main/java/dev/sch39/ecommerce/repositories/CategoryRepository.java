@@ -19,4 +19,10 @@ public interface CategoryRepository extends JpaRepository<CategoryEntity, Long> 
 
   @Query(value = "update categories set is_deleted=true where slug=?1 and is_deleted=false", nativeQuery = true)
   void deleteBySlug(String slug);
+
+  @Query(value = "select * from categories where is_deleted=false", nativeQuery = true)
+  List<CategoryEntity> findAllNotDeleted();
+
+  @Query(value = "select * from categories where is_deleted=true", nativeQuery = true)
+  List<CategoryEntity> findAllDeleted();
 }

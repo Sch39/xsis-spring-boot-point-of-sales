@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ErrorApiResponse<T> extends ApiResponse<T> {
-  private int errorCode;
+public class ErrorApiResponse<T> extends ApiResponse {
+  private T errors;
 }

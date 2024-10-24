@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -65,6 +66,26 @@ public class RestProductController {
       errorApiResponse.setSuccess(false);
       errorApiResponse.setMessage(e.getMessage());
       return new ResponseEntity<>(errorApiResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  @GetMapping({ "{id}", "{id}/" })
+  public ResponseEntity<ApiResponse> getProductById(@PathVariable("id") Long id) {
+    try {
+      RestProductAdminResponseDto responseDto = restProductService.getProductByIdForAdmin(id);
+
+      SuccessApiResponse<RestProductAdminResponseDto> apiResponse = new SuccessApiResponse<>();
+      apiResponse.setSuccess(true);
+      apiResponse.setMessage("Success get product");
+      apiResponse.setData(responseDto);
+
+      return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    } catch (Exception e) {
+      ErrorApiResponse<Void> errorApiResponse = new ErrorApiResponse<>();
+      errorApiResponse.setSuccess(false);
+      errorApiResponse.setMessage(e.getMessage());
+      return new ResponseEntity<>(errorApiResponse,
+          HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 }

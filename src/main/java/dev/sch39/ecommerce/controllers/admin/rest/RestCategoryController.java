@@ -5,15 +5,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import dev.sch39.ecommerce.dtos.rest.request.RestCategoryAdminFilterRequestDto;
 import dev.sch39.ecommerce.dtos.rest.request.RestCategoryAdminRequestDto;
+import dev.sch39.ecommerce.dtos.rest.request.RestPaginationRequestDto;
 import dev.sch39.ecommerce.dtos.rest.response.RestCategoryAdminResponseDto;
 import dev.sch39.ecommerce.services.rest.RestCategoryService;
 import dev.sch39.ecommerce.utils.ApiResponse;
 import dev.sch39.ecommerce.utils.ErrorApiResponse;
 import dev.sch39.ecommerce.utils.SuccessApiResponse;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -52,12 +52,13 @@ public class RestCategoryController {
   }
 
   @GetMapping({ "", "/" })
-  public ResponseEntity<ApiResponse> getCategories(RestCategoryAdminFilterRequestDto queryDto) {
+  public ResponseEntity<ApiResponse> getCategories(RestCategoryAdminFilterRequestDto queryDto,
+      RestPaginationRequestDto paginationRequestDto) {
     try {
-      List<RestCategoryAdminResponseDto> responseDtos = restCategoryService
-          .getCategoriesForAdminByFilter(queryDto);
+      Page<RestCategoryAdminResponseDto> responseDtos = restCategoryService
+          .getCategoriesForAdminByFilter(queryDto, paginationRequestDto);
 
-      SuccessApiResponse<List<RestCategoryAdminResponseDto>> apiResponse = new SuccessApiResponse<>();
+      SuccessApiResponse<Page<RestCategoryAdminResponseDto>> apiResponse = new SuccessApiResponse<>();
       apiResponse.setSuccess(true);
       apiResponse.setMessage("Success get all category");
       apiResponse.setData(responseDtos);

@@ -3,6 +3,8 @@ package dev.sch39.ecommerce.repositories;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -21,8 +23,8 @@ public interface CategoryRepository extends JpaRepository<CategoryEntity, Long> 
   void deleteBySlug(String slug);
 
   @Query(value = "select * from categories where is_deleted=false", nativeQuery = true)
-  List<CategoryEntity> findAllNotDeleted();
+  Page<CategoryEntity> findAllNotDeleted(Pageable pageable);
 
   @Query(value = "select * from categories where is_deleted=true", nativeQuery = true)
-  List<CategoryEntity> findAllDeleted();
+  Page<CategoryEntity> findAllDeleted(Pageable pageable);
 }

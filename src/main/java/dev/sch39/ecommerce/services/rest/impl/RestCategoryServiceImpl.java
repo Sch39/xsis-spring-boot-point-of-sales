@@ -1,15 +1,15 @@
 package dev.sch39.ecommerce.services.rest.impl;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import dev.sch39.ecommerce.dtos.rest.request.RestCategoryAdminFilterRequestDto;
 import dev.sch39.ecommerce.dtos.rest.request.RestCategoryAdminRequestDto;
+import dev.sch39.ecommerce.dtos.rest.request.RestPaginationRequestDto;
 import dev.sch39.ecommerce.dtos.rest.response.RestCategoryAdminResponseDto;
-import dev.sch39.ecommerce.dtos.rest.response.RestCategoryUserResponseDto;
 import dev.sch39.ecommerce.entities.CategoryEntity;
 import dev.sch39.ecommerce.repositories.CategoryRepository;
 import dev.sch39.ecommerce.services.rest.RestCategoryService;
@@ -30,24 +30,6 @@ public class RestCategoryServiceImpl implements RestCategoryService {
     category = categoryRepository.save(category);
 
     return new RestCategoryAdminResponseDto(category);
-  }
-
-  @Override
-  public List<RestCategoryUserResponseDto> getCategoriesForUser() {
-    List<CategoryEntity> categories = categoryRepository.findAllNotDeleted();
-
-    return categories
-        .stream()
-        .map(RestCategoryUserResponseDto::new)
-        .collect(Collectors.toList());
-  }
-
-  @Override
-  public RestCategoryUserResponseDto getCategoryBySlugForUser(String slug) {
-    CategoryEntity category = categoryRepository
-        .findBySlug(slug).orElseThrow(() -> new IllegalArgumentException("Invalid category slug: " + slug));
-    RestCategoryUserResponseDto responseDto = new RestCategoryUserResponseDto(category);
-    return responseDto;
   }
 
   @Override
@@ -79,28 +61,26 @@ public class RestCategoryServiceImpl implements RestCategoryService {
   }
 
   @Override
-  public List<RestCategoryAdminResponseDto> getCategoriesForAdminByFilter(
-      RestCategoryAdminFilterRequestDto queryDto) {
+  public Page<RestCategoryAdminResponseDto> getCategoriesForAdminByFilter(
+      RestCategoryAdminFilterRequestDto queryDto, RestPaginationRequestDto paginationRequestDto) {
     String include = queryDto.getInclude();
+    int page = paginationRequestDto.getPage();
+    int size = paginationRequestDto.getSize();
+
+    Pageable pageable = PageRequest.of(page, size);
     if ("deleted".equals(include)) {
       return categoryRepository
-          .findAllDeleted()
-          .stream()
-          .map(category -> new RestCategoryAdminResponseDto(category))
-          .collect(Collectors.toList());
+          .findAllDeleted(pageable)
+          .map(category -> new RestCategoryAdminResponseDto(category));
     } else if ("not-deleted".equals(include)) {
       return categoryRepository
-          .findAllNotDeleted()
-          .stream()
-          .map(category -> new RestCategoryAdminResponseDto(category))
-          .collect(Collectors.toList());
+          .findAllNotDeleted(pageable)
+          .map(category -> new RestCategoryAdminResponseDto(category));
     }
 
     return categoryRepository
-        .findAll()
-        .stream()
-        .map(category -> new RestCategoryAdminResponseDto(category))
-        .collect(Collectors.toList());
+        .findAll(pageable)
+        .map(category -> new RestCategoryAdminResponseDto(category));
   }
 
 }

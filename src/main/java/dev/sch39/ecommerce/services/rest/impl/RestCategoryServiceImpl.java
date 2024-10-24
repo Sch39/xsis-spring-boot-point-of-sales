@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import dev.sch39.ecommerce.dtos.rest.request.RestCategoryAdminFilterRequestDto;
@@ -66,8 +67,12 @@ public class RestCategoryServiceImpl implements RestCategoryService {
     String include = queryDto.getInclude();
     int page = paginationRequestDto.getPage();
     int size = paginationRequestDto.getSize();
+    String sortBy = paginationRequestDto.getSortBy();
+    String sortDirection = paginationRequestDto.getSortDirection();
 
-    Pageable pageable = PageRequest.of(page, size);
+    Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), sortBy);
+
+    Pageable pageable = PageRequest.of(page, size, sort);
     if ("deleted".equals(include)) {
       return categoryRepository
           .findAllDeleted(pageable)

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.sch39.ecommerce.dtos.rest.request.RestProductAdminFilterRequestDto;
-import dev.sch39.ecommerce.dtos.rest.request.RestProductRequestDto;
+import dev.sch39.ecommerce.dtos.rest.request.RestProductAdminRequestDto;
 import dev.sch39.ecommerce.dtos.rest.response.RestProductAdminResponseDto;
 import dev.sch39.ecommerce.services.rest.RestProductService;
 import dev.sch39.ecommerce.utils.ApiResponse;
@@ -31,7 +31,7 @@ public class RestProductController {
   RestProductService restProductService;
 
   @PostMapping({ "", "/" })
-  public ResponseEntity<ApiResponse> createProduct(@RequestBody RestProductRequestDto requestdto) {
+  public ResponseEntity<ApiResponse> createProduct(@RequestBody RestProductAdminRequestDto requestdto) {
     try {
       RestProductAdminResponseDto responseDto = restProductService.createProductForAdmin(requestdto);
 
@@ -93,7 +93,7 @@ public class RestProductController {
 
   @PutMapping({ "{id}", "{id}/" })
   public ResponseEntity<ApiResponse> updateProductById(@PathVariable("id") Long id,
-      @RequestBody RestProductRequestDto requestdto) {
+      @RequestBody RestProductAdminRequestDto requestdto) {
     try {
       RestProductAdminResponseDto responseDto = restProductService.updateProductByIdForAdmin(id, requestdto);
 

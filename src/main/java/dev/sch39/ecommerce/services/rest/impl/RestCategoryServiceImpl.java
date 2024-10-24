@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import dev.sch39.ecommerce.dtos.rest.request.RestCategoryAdminFilterRequestDto;
-import dev.sch39.ecommerce.dtos.rest.request.RestCategoryRequestDto;
+import dev.sch39.ecommerce.dtos.rest.request.RestCategoryAdminRequestDto;
 import dev.sch39.ecommerce.dtos.rest.response.RestCategoryAdminResponseDto;
 import dev.sch39.ecommerce.dtos.rest.response.RestCategoryUserResponseDto;
 import dev.sch39.ecommerce.entities.CategoryEntity;
@@ -20,7 +20,7 @@ public class RestCategoryServiceImpl implements RestCategoryService {
   private CategoryRepository categoryRepository;
 
   @Override
-  public RestCategoryAdminResponseDto createCategoryForAdmin(RestCategoryRequestDto requestDto) {
+  public RestCategoryAdminResponseDto createCategoryForAdmin(RestCategoryAdminRequestDto requestDto) {
     CategoryEntity category = new CategoryEntity();
     category.setName(requestDto.getName());
     category.setDescription(requestDto.getDescription());
@@ -69,7 +69,7 @@ public class RestCategoryServiceImpl implements RestCategoryService {
   }
 
   @Override
-  public RestCategoryAdminResponseDto updateCategoryByIdForAdmin(Long id, RestCategoryRequestDto requestDto) {
+  public RestCategoryAdminResponseDto updateCategoryByIdForAdmin(Long id, RestCategoryAdminRequestDto requestDto) {
     CategoryEntity category = categoryRepository.findById(id)
         .orElseThrow(() -> new IllegalArgumentException("Invalid category id: " + id));
 

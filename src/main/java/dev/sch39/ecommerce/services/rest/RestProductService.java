@@ -3,11 +3,11 @@ package dev.sch39.ecommerce.services.rest;
 import java.util.List;
 
 import dev.sch39.ecommerce.dtos.rest.request.RestProductAdminFilterRequestDto;
-import dev.sch39.ecommerce.dtos.rest.request.RestProductRequestDto;
+import dev.sch39.ecommerce.dtos.rest.request.RestProductAdminRequestDto;
 import dev.sch39.ecommerce.dtos.rest.response.RestProductAdminResponseDto;
 
 public interface RestProductService {
-  RestProductAdminResponseDto createProductForAdmin(RestProductRequestDto requestdto);
+  RestProductAdminResponseDto createProductForAdmin(RestProductAdminRequestDto requestdto);
 
   List<RestProductAdminResponseDto> getProductsForAdmin();
 
@@ -15,7 +15,7 @@ public interface RestProductService {
 
   RestProductAdminResponseDto getProductByIdForAdmin(Long id);
 
-  RestProductAdminResponseDto updateProductByIdForAdmin(Long id, RestProductRequestDto requestDto);
+  RestProductAdminResponseDto updateProductByIdForAdmin(Long id, RestProductAdminRequestDto requestDto);
 
   void deleteProductByIdForAdmin(Long id);
 }

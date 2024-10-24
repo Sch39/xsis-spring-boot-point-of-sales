@@ -1,11 +1,13 @@
 package dev.sch39.ecommerce.services.rest.impl;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import dev.sch39.ecommerce.dtos.rest.request.RestPaginationRequestDto;
 import dev.sch39.ecommerce.dtos.rest.request.RestVariantAdminFilterRequestDto;
 import dev.sch39.ecommerce.dtos.rest.request.RestVariantAdminRequestDto;
 import dev.sch39.ecommerce.dtos.rest.response.RestVariantAdminResponseDto;
@@ -34,28 +36,29 @@ public class RestVariantServiceImpl implements RestVariantService {
   }
 
   @Override
-  public List<RestVariantAdminResponseDto> getVariantsForAdminByFilter(
-      RestVariantAdminFilterRequestDto filterRequestDto) {
+  public Page<RestVariantAdminResponseDto> getVariantsForAdminByFilter(
+      RestVariantAdminFilterRequestDto filterRequestDto, RestPaginationRequestDto paginationRequestDto) {
     String include = filterRequestDto.getInclude();
+    int page = paginationRequestDto.getPage();
+    int size = paginationRequestDto.getSize();
+    String sortBy = paginationRequestDto.getSortBy();
+    String sortDirection = paginationRequestDto.getSortDirection();
+
+    Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), sortBy);
+    Pageable pageable = PageRequest.of(page, size, sort);
 
     if ("deleted".equals(include)) {
       return variantRepository
-          .findAllDeleted()
-          .stream()
-          .map(variant -> new RestVariantAdminResponseDto(variant))
-          .collect(Collectors.toList());
+          .findAllDeleted(pageable)
+          .map(variant -> new RestVariantAdminResponseDto(variant));
     } else if ("not-deleted".equals(include)) {
       return variantRepository
-          .findAllNotDeleted()
-          .stream()
-          .map(variant -> new RestVariantAdminResponseDto(variant))
-          .collect(Collectors.toList());
+          .findAllNotDeleted(pageable)
+          .map(variant -> new RestVariantAdminResponseDto(variant));
     }
     return variantRepository
-        .findAll()
-        .stream()
-        .map(variant -> new RestVariantAdminResponseDto(variant))
-        .collect(Collectors.toList());
+        .findAll(pageable)
+        .map(variant -> new RestVariantAdminResponseDto(variant));
   }
 
   @Override

@@ -1,7 +1,8 @@
 package dev.sch39.ecommerce.services.rest;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
 
+import dev.sch39.ecommerce.dtos.rest.request.RestPaginationRequestDto;
 import dev.sch39.ecommerce.dtos.rest.request.RestVariantAdminFilterRequestDto;
 import dev.sch39.ecommerce.dtos.rest.request.RestVariantAdminRequestDto;
 import dev.sch39.ecommerce.dtos.rest.response.RestVariantAdminResponseDto;
@@ -9,7 +10,8 @@ import dev.sch39.ecommerce.dtos.rest.response.RestVariantAdminResponseDto;
 public interface RestVariantService {
   RestVariantAdminResponseDto createVariantForAdmin(RestVariantAdminRequestDto requestDto);
 
-  List<RestVariantAdminResponseDto> getVariantsForAdminByFilter(RestVariantAdminFilterRequestDto filterRequestDto);
+  Page<RestVariantAdminResponseDto> getVariantsForAdminByFilter(RestVariantAdminFilterRequestDto filterRequestDto,
+      RestPaginationRequestDto paginationRequestDto);
 
   RestVariantAdminResponseDto getVariantByIdForAdmin(Long id);
 

@@ -1,8 +1,9 @@
 package dev.sch39.ecommerce.repositories;
 
-import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -15,8 +16,8 @@ public interface VariantRepository extends JpaRepository<VariantEntity, Long> {
   Optional<VariantEntity> findBySlug(String slug);
 
   @Query(value = "select * from variants where is_deleted=false", nativeQuery = true)
-  List<VariantEntity> findAllNotDeleted();
+  Page<VariantEntity> findAllNotDeleted(Pageable pageable);
 
   @Query(value = "select * from variants where is_deleted=true", nativeQuery = true)
-  List<VariantEntity> findAllDeleted();
+  Page<VariantEntity> findAllDeleted(Pageable pageable);
 }

@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import dev.sch39.ecommerce.dtos.rest.request.RestProductAdminFilterRequestDto;
-import dev.sch39.ecommerce.dtos.rest.request.RestProductRequestdto;
+import dev.sch39.ecommerce.dtos.rest.request.RestProductRequestDto;
 import dev.sch39.ecommerce.dtos.rest.response.RestProductAdminResponseDto;
 import dev.sch39.ecommerce.entities.ProductEntity;
 import dev.sch39.ecommerce.repositories.ProductRepository;
@@ -20,7 +20,7 @@ public class RestProductServiceImpl implements RestProductService {
   private ProductRepository productRepository;
 
   @Override
-  public RestProductAdminResponseDto createProductForAdmin(RestProductRequestdto requestdto) {
+  public RestProductAdminResponseDto createProductForAdmin(RestProductRequestDto requestdto) {
     ProductEntity product = new ProductEntity();
     product.setName(requestdto.getName());
     product.setSlug(requestdto.getSlug());
@@ -75,7 +75,7 @@ public class RestProductServiceImpl implements RestProductService {
   }
 
   @Override
-  public RestProductAdminResponseDto updateProductByIdForAdmin(Long id, RestProductRequestdto requestDto) {
+  public RestProductAdminResponseDto updateProductByIdForAdmin(Long id, RestProductRequestDto requestDto) {
     ProductEntity product = productRepository.findById(id)
         .orElseThrow(() -> new IllegalArgumentException("Invalid product id: " + id));
 

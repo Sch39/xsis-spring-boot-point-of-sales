@@ -122,7 +122,7 @@ public class RestCategoryController {
       apiResponse.setSuccess(true);
       apiResponse.setMessage("Category deleted successfully");
 
-      return new ResponseEntity<>(apiResponse, HttpStatus.NO_CONTENT);
+      return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     } catch (Exception e) {
       ErrorApiResponse<Void> errorApiResponse = new ErrorApiResponse<>();
       errorApiResponse.setSuccess(false);

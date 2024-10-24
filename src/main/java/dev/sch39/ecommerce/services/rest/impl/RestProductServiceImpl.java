@@ -32,16 +32,6 @@ public class RestProductServiceImpl implements RestProductService {
   }
 
   @Override
-  public List<RestProductAdminResponseDto> getProductsForAdmin() {
-    List<ProductEntity> products = productRepository.findAll();
-
-    return products
-        .stream()
-        .map(product -> new RestProductAdminResponseDto(product))
-        .collect(Collectors.toList());
-  }
-
-  @Override
   public List<RestProductAdminResponseDto> getProductsForAdminByFilter(RestProductAdminFilterRequestDto filterRequest) {
     String include = filterRequest.getInclude();
 

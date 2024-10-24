@@ -9,8 +9,6 @@ import dev.sch39.ecommerce.dtos.rest.response.RestProductAdminResponseDto;
 public interface RestProductService {
   RestProductAdminResponseDto createProductForAdmin(RestProductAdminRequestDto requestdto);
 
-  List<RestProductAdminResponseDto> getProductsForAdmin();
-
   List<RestProductAdminResponseDto> getProductsForAdminByFilter(RestProductAdminFilterRequestDto filterRequest);
 
   RestProductAdminResponseDto getProductByIdForAdmin(Long id);

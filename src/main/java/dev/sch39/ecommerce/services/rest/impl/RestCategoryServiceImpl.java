@@ -43,16 +43,6 @@ public class RestCategoryServiceImpl implements RestCategoryService {
   }
 
   @Override
-  public List<RestCategoryAdminResponseDto> getCategoriesForAdmin() {
-    List<CategoryEntity> categories = categoryRepository.findAll();
-
-    return categories
-        .stream()
-        .map(RestCategoryAdminResponseDto::new)
-        .collect(Collectors.toList());
-  }
-
-  @Override
   public RestCategoryUserResponseDto getCategoryBySlugForUser(String slug) {
     CategoryEntity category = categoryRepository
         .findBySlug(slug).orElseThrow(() -> new IllegalArgumentException("Invalid category slug: " + slug));

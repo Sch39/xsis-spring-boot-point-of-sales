@@ -12,8 +12,6 @@ public interface RestCategoryService {
 
   List<RestCategoryUserResponseDto> getCategoriesForUser();
 
-  List<RestCategoryAdminResponseDto> getCategoriesForAdmin();
-
   List<RestCategoryAdminResponseDto> getCategoriesForAdminByFilter(RestCategoryAdminFilterRequestDto queryDto);
 
   RestCategoryUserResponseDto getCategoryBySlugForUser(String slug);

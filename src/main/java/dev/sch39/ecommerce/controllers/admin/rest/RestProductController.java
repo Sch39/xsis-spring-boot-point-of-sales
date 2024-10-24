@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -88,4 +89,27 @@ public class RestProductController {
           HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
+
+  @PutMapping({ "{id}", "{id}/" })
+  public ResponseEntity<ApiResponse> updateProductById(@PathVariable("id") Long id,
+      @RequestBody RestProductRequestdto requestdto) {
+    try {
+      RestProductAdminResponseDto responseDto = restProductService.updateProductByIdForAdmin(id, requestdto);
+
+      SuccessApiResponse<RestProductAdminResponseDto> apiResponse = new SuccessApiResponse<>();
+      apiResponse.setSuccess(true);
+      apiResponse.setMessage("Updated product successfully");
+      apiResponse.setData(responseDto);
+
+      return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    } catch (Exception e) {
+      ErrorApiResponse<Void> errorApiResponse = new ErrorApiResponse<>();
+      errorApiResponse.setSuccess(false);
+      errorApiResponse.setMessage(e.getMessage());
+
+      return new ResponseEntity<>(errorApiResponse,
+          HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
 }

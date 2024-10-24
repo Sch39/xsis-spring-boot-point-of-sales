@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.sch39.ecommerce.dtos.rest.response.RestProductSummaryResponseDto;
-import dev.sch39.ecommerce.dtos.rest.response.RestVariantResponseDto;
+import dev.sch39.ecommerce.dtos.rest.response.RestVariantAdminResponseDto;
 import dev.sch39.ecommerce.entities.VariantEntity;
 import dev.sch39.ecommerce.services.VariantService;
 import dev.sch39.ecommerce.utils.ApiResponse;

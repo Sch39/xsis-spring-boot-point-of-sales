@@ -52,7 +52,7 @@ public class RestCategoryController {
   }
 
   @GetMapping({ "", "/" })
-  public ResponseEntity<ApiResponse> getAllCategories(RestCategoryAdminFilterRequestDto queryDto) {
+  public ResponseEntity<ApiResponse> getCategories(RestCategoryAdminFilterRequestDto queryDto) {
     try {
       List<RestCategoryAdminResponseDto> responseDtos = restCategoryService
           .getCategoriesForAdminByFilter(queryDto);

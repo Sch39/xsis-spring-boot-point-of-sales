@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @CrossOrigin("*")
-@RestController
+@RestController("AdminRestCategoryController")
 @RequestMapping("/api/admin/categories")
 public class RestCategoryController {
   @Autowired

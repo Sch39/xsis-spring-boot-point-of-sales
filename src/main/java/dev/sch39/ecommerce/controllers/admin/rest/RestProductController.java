@@ -1,8 +1,7 @@
 package dev.sch39.ecommerce.controllers.admin.rest;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import dev.sch39.ecommerce.dtos.rest.request.RestPaginationRequestDto;
 import dev.sch39.ecommerce.dtos.rest.request.RestProductAdminFilterRequestDto;
 import dev.sch39.ecommerce.dtos.rest.request.RestProductAdminRequestDto;
 import dev.sch39.ecommerce.dtos.rest.response.RestProductAdminResponseDto;
@@ -53,11 +53,13 @@ public class RestProductController {
   }
 
   @GetMapping({ "", "/" })
-  public ResponseEntity<ApiResponse> getProducts(RestProductAdminFilterRequestDto filterRequestDto) {
+  public ResponseEntity<ApiResponse> getProducts(RestProductAdminFilterRequestDto filterRequestDto,
+      RestPaginationRequestDto paginationRequestDto) {
     try {
-      List<RestProductAdminResponseDto> responseDtos = restProductService.getProductsForAdminByFilter(filterRequestDto);
+      Page<RestProductAdminResponseDto> responseDtos = restProductService.getProductsForAdminByFilter(filterRequestDto,
+          paginationRequestDto);
 
-      SuccessApiResponse<List<RestProductAdminResponseDto>> apiResponse = new SuccessApiResponse<>();
+      SuccessApiResponse<Page<RestProductAdminResponseDto>> apiResponse = new SuccessApiResponse<>();
       apiResponse.setSuccess(true);
       apiResponse.setMessage("Success get all product");
       apiResponse.setData(responseDtos);

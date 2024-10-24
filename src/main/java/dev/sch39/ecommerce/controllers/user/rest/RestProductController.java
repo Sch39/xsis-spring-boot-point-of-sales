@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.sch39.ecommerce.dtos.rest.response.RestCategorySummaryResponseDto;
-import dev.sch39.ecommerce.dtos.rest.response.RestProductResponseDto;
 import dev.sch39.ecommerce.entities.ProductEntity;
 import dev.sch39.ecommerce.services.ProductService;
 import dev.sch39.ecommerce.utils.ApiResponse;

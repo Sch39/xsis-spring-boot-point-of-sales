@@ -1,12 +1,14 @@
 
 package dev.sch39.ecommerce.services.rest.impl;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import dev.sch39.ecommerce.dtos.rest.request.RestPaginationRequestDto;
 import dev.sch39.ecommerce.dtos.rest.request.RestProductAdminFilterRequestDto;
 import dev.sch39.ecommerce.dtos.rest.request.RestProductAdminRequestDto;
 import dev.sch39.ecommerce.dtos.rest.response.RestProductAdminResponseDto;
@@ -32,28 +34,30 @@ public class RestProductServiceImpl implements RestProductService {
   }
 
   @Override
-  public List<RestProductAdminResponseDto> getProductsForAdminByFilter(RestProductAdminFilterRequestDto filterRequest) {
+  public Page<RestProductAdminResponseDto> getProductsForAdminByFilter(RestProductAdminFilterRequestDto filterRequest,
+      RestPaginationRequestDto paginationRequestDto) {
     String include = filterRequest.getInclude();
+    int page = paginationRequestDto.getPage();
+    int size = paginationRequestDto.getSize();
+    String sortBy = paginationRequestDto.getSortBy();
+    String sortDirection = paginationRequestDto.getSortDirection();
+
+    Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), sortBy);
+    Pageable pageable = PageRequest.of(page, size, sort);
 
     if ("deleted".equals(include)) {
       return productRepository
-          .findAllDeleted()
-          .stream()
-          .map(product -> new RestProductAdminResponseDto(product))
-          .collect(Collectors.toList());
+          .findAllDeleted(pageable)
+          .map(product -> new RestProductAdminResponseDto(product));
     } else if ("not-deleted".equals(include)) {
       return productRepository
-          .findAllNotDeleted()
-          .stream()
-          .map(product -> new RestProductAdminResponseDto(product))
-          .collect(Collectors.toList());
+          .findAllNotDeleted(pageable)
+          .map(product -> new RestProductAdminResponseDto(product));
     }
 
     return productRepository
-        .findAll()
-        .stream()
-        .map(product -> new RestProductAdminResponseDto(product))
-        .collect(Collectors.toList());
+        .findAll(pageable)
+        .map(product -> new RestProductAdminResponseDto(product));
   }
 
   @Override

@@ -34,7 +34,7 @@ public class RestCategoryController {
   @PostMapping({ "", "/" })
   public ResponseEntity<ApiResponse> createCategory(@RequestBody RestCategoryRequestDto requestDto) {
     try {
-      RestCategoryAdminResponseDto responseDto = restCategoryService.createCategory(requestDto);
+      RestCategoryAdminResponseDto responseDto = restCategoryService.createCategoryForAdmin(requestDto);
       SuccessApiResponse<RestCategoryAdminResponseDto> apiResponse = new SuccessApiResponse<>();
       apiResponse.setSuccess(true);
       apiResponse.setMessage("Created category successfully");
@@ -55,7 +55,7 @@ public class RestCategoryController {
   public ResponseEntity<ApiResponse> getAllCategories(RestCategoryAdminFilterRequestDto queryDto) {
     try {
       List<RestCategoryAdminResponseDto> responseDtos = restCategoryService
-          .getAllCategoriesForAdminByQueryParam(queryDto);
+          .getCategoriesForAdminByFilter(queryDto);
 
       SuccessApiResponse<List<RestCategoryAdminResponseDto>> apiResponse = new SuccessApiResponse<>();
       apiResponse.setSuccess(true);
@@ -96,7 +96,7 @@ public class RestCategoryController {
       @RequestBody RestCategoryRequestDto requestDto) {
 
     try {
-      RestCategoryAdminResponseDto responseDto = restCategoryService.updateCategoryById(id, requestDto);
+      RestCategoryAdminResponseDto responseDto = restCategoryService.updateCategoryByIdForAdmin(id, requestDto);
       SuccessApiResponse<RestCategoryAdminResponseDto> apiResponse = new SuccessApiResponse<>();
       apiResponse.setSuccess(true);
       apiResponse.setMessage("Updated category successfully");
@@ -117,7 +117,7 @@ public class RestCategoryController {
   public ResponseEntity<ApiResponse> deleteCategoryById(@PathVariable("id") Long id) {
 
     try {
-      restCategoryService.deleteCategoryById(id);
+      restCategoryService.deleteCategoryByIdForAdmin(id);
       ApiResponse apiResponse = new ApiResponse();
       apiResponse.setSuccess(true);
       apiResponse.setMessage("Category deleted successfully");

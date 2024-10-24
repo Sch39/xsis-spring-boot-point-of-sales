@@ -8,21 +8,19 @@ import dev.sch39.ecommerce.dtos.rest.response.RestCategoryAdminResponseDto;
 import dev.sch39.ecommerce.dtos.rest.response.RestCategoryUserResponseDto;
 
 public interface RestCategoryService {
-  RestCategoryAdminResponseDto createCategory(RestCategoryRequestDto requestDto);
+  RestCategoryAdminResponseDto createCategoryForAdmin(RestCategoryRequestDto requestDto);
 
-  List<RestCategoryUserResponseDto> getAllCategoriesForUser();
+  List<RestCategoryUserResponseDto> getCategoriesForUser();
 
-  List<RestCategoryAdminResponseDto> getAllCategoriesForAdmin();
+  List<RestCategoryAdminResponseDto> getCategoriesForAdmin();
 
-  List<RestCategoryAdminResponseDto> getAllCategoriesForAdmin(boolean isDeleted);
-
-  List<RestCategoryAdminResponseDto> getAllCategoriesForAdminByQueryParam(RestCategoryAdminFilterRequestDto queryDto);
+  List<RestCategoryAdminResponseDto> getCategoriesForAdminByFilter(RestCategoryAdminFilterRequestDto queryDto);
 
   RestCategoryUserResponseDto getCategoryBySlugForUser(String slug);
 
   RestCategoryAdminResponseDto getCategoryByIdForAdmin(Long id);
 
-  RestCategoryAdminResponseDto updateCategoryById(Long id, RestCategoryRequestDto requestDto);
+  RestCategoryAdminResponseDto updateCategoryByIdForAdmin(Long id, RestCategoryRequestDto requestDto);
 
-  void deleteCategoryById(Long id);
+  void deleteCategoryByIdForAdmin(Long id);
 }

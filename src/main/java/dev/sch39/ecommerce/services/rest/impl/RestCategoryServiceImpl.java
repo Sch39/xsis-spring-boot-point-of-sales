@@ -20,7 +20,7 @@ public class RestCategoryServiceImpl implements RestCategoryService {
   private CategoryRepository categoryRepository;
 
   @Override
-  public RestCategoryAdminResponseDto createCategory(RestCategoryRequestDto requestDto) {
+  public RestCategoryAdminResponseDto createCategoryForAdmin(RestCategoryRequestDto requestDto) {
     CategoryEntity category = new CategoryEntity();
     category.setName(requestDto.getName());
     category.setDescription(requestDto.getDescription());
@@ -33,7 +33,7 @@ public class RestCategoryServiceImpl implements RestCategoryService {
   }
 
   @Override
-  public List<RestCategoryUserResponseDto> getAllCategoriesForUser() {
+  public List<RestCategoryUserResponseDto> getCategoriesForUser() {
     List<CategoryEntity> categories = categoryRepository.findAllNotDeleted();
 
     return categories
@@ -43,30 +43,12 @@ public class RestCategoryServiceImpl implements RestCategoryService {
   }
 
   @Override
-  public List<RestCategoryAdminResponseDto> getAllCategoriesForAdmin() {
+  public List<RestCategoryAdminResponseDto> getCategoriesForAdmin() {
     List<CategoryEntity> categories = categoryRepository.findAll();
 
     return categories
         .stream()
         .map(RestCategoryAdminResponseDto::new)
-        .collect(Collectors.toList());
-  }
-
-  @Override
-  public List<RestCategoryAdminResponseDto> getAllCategoriesForAdmin(boolean isDeleted) {
-
-    if (isDeleted) {
-      return categoryRepository
-          .findAllDeleted()
-          .stream()
-          .map(category -> new RestCategoryAdminResponseDto(category))
-          .collect(Collectors.toList());
-    }
-
-    return categoryRepository
-        .findAllNotDeleted()
-        .stream()
-        .map(category -> new RestCategoryAdminResponseDto(category))
         .collect(Collectors.toList());
   }
 
@@ -87,7 +69,7 @@ public class RestCategoryServiceImpl implements RestCategoryService {
   }
 
   @Override
-  public RestCategoryAdminResponseDto updateCategoryById(Long id, RestCategoryRequestDto requestDto) {
+  public RestCategoryAdminResponseDto updateCategoryByIdForAdmin(Long id, RestCategoryRequestDto requestDto) {
     CategoryEntity category = categoryRepository.findById(id)
         .orElseThrow(() -> new IllegalArgumentException("Invalid category id: " + id));
 
@@ -100,14 +82,14 @@ public class RestCategoryServiceImpl implements RestCategoryService {
   }
 
   @Override
-  public void deleteCategoryById(Long id) {
+  public void deleteCategoryByIdForAdmin(Long id) {
     CategoryEntity category = categoryRepository.findById(id)
         .orElseThrow(() -> new IllegalArgumentException("Invalid category id: " + id));
     categoryRepository.delete(category);
   }
 
   @Override
-  public List<RestCategoryAdminResponseDto> getAllCategoriesForAdminByQueryParam(
+  public List<RestCategoryAdminResponseDto> getCategoriesForAdminByFilter(
       RestCategoryAdminFilterRequestDto queryDto) {
     String include = queryDto.getInclude();
     if ("deleted".equals(include)) {

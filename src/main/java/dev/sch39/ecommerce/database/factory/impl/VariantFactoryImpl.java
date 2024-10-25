@@ -29,7 +29,7 @@ public class VariantFactoryImpl implements Factory {
         variantEntity.setDescription(faker.lorem().paragraph(10));
         variantEntity.setSlug(faker.internet().slug());
         variantEntity.setPrice(Double.valueOf(faker.commerce().price(100_000, 300_000)));
-        variantEntity.setStock(faker.number().randomDouble(2, 0, 10));
+        variantEntity.setStock(Double.valueOf(faker.number().numberBetween(2, 30)));
         variantEntity.setProductId(i);
         variantEntity.setDeleted(faker.bool().bool());
         variantList.add(variantEntity);

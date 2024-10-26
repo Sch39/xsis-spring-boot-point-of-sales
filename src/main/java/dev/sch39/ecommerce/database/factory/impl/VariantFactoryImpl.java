@@ -22,7 +22,7 @@ public class VariantFactoryImpl implements Factory {
   public void run() {
     List<VariantEntity> variantList = new ArrayList<>();
 
-    for (Long i = 1L; i <= 3; i++) {
+    for (Long i = 1L; i <= 15; i++) {
       for (int j = 1; j <= 4; j++) {
         VariantEntity variantEntity = new VariantEntity();
         variantEntity.setName(faker.pokemon().name());

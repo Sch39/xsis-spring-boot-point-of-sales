@@ -8,9 +8,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import dev.sch39.ecommerce.dtos.rest.request.RestPaginationRequestDto;
+import dev.sch39.ecommerce.dtos.rest.request.RestUserVariantSearchRequestDto;
 import dev.sch39.ecommerce.dtos.rest.request.RestVariantAdminFilterRequestDto;
 import dev.sch39.ecommerce.dtos.rest.request.RestVariantAdminRequestDto;
 import dev.sch39.ecommerce.dtos.rest.response.RestVariantAdminResponseDto;
+import dev.sch39.ecommerce.dtos.rest.response.RestVariantUserResponseDto;
 import dev.sch39.ecommerce.entities.VariantEntity;
 import dev.sch39.ecommerce.repositories.VariantRepository;
 import dev.sch39.ecommerce.services.rest.RestVariantService;
@@ -92,6 +94,24 @@ public class RestVariantServiceImpl implements RestVariantService {
         .orElseThrow(() -> new IllegalArgumentException("Invalid variant  id: " + id));
 
     variantRepository.delete(variant);
+  }
+
+  @Override
+  public Page<RestVariantUserResponseDto> searchVariants(RestUserVariantSearchRequestDto requestDto,
+      RestPaginationRequestDto paginationRequestDto) {
+    int page = paginationRequestDto.getPage();
+    int size = paginationRequestDto.getSize();
+    String sortBy = paginationRequestDto.getSortBy();
+    String sortDirection = paginationRequestDto.getSortDirection();
+
+    Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), sortBy);
+    Pageable pageable = PageRequest.of(page, size, sort);
+    return variantRepository.searchVariants(
+        requestDto.getVariantName(),
+        requestDto.getProductName(),
+        requestDto.getCategoryName(),
+        pageable)
+        .map(variant -> new RestVariantUserResponseDto(variant));
   }
 
 }

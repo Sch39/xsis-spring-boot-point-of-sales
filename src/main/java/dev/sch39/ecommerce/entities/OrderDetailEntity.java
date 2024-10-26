@@ -2,6 +2,7 @@ package dev.sch39.ecommerce.entities;
 
 import org.hibernate.annotations.SQLDelete;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,11 +24,23 @@ public class OrderDetailEntity extends BaseEntity {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  private Long orderDetailId;
-
-  @ManyToOne
+  @ManyToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "header_id", insertable = false, updatable = false)
-  private OrderDetailEntity orderDetail;
+  private OrderHeaderEntity header;
+
+  @Column(name = "header_id")
+  private Long headerId;
+
+  @ManyToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "variant_id", insertable = false, updatable = false)
+  private VariantEntity variant;
+
+  @Column(name = "variant_id")
+  private Long variantId;
+
+  private Double quantity;
+
+  private Double price;
 
   @Column(name = "is_deleted")
   private boolean deleted;

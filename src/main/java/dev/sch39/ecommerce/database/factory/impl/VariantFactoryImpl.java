@@ -23,7 +23,7 @@ public class VariantFactoryImpl implements Factory {
     List<VariantEntity> variantList = new ArrayList<>();
 
     for (Long i = 1L; i <= 3; i++) {
-      for (int j = 1; j <= 3; j++) {
+      for (int j = 1; j <= 4; j++) {
         VariantEntity variantEntity = new VariantEntity();
         variantEntity.setName(faker.pokemon().name());
         variantEntity.setDescription(faker.lorem().paragraph(10));
@@ -31,7 +31,7 @@ public class VariantFactoryImpl implements Factory {
         variantEntity.setPrice(Double.valueOf(faker.commerce().price(100_000, 300_000)));
         variantEntity.setStock(Double.valueOf(faker.number().numberBetween(2, 30)));
         variantEntity.setProductId(i);
-        variantEntity.setDeleted(faker.bool().bool());
+        variantEntity.setDeleted(i == j ? false : faker.bool().bool());
         variantList.add(variantEntity);
       }
     }

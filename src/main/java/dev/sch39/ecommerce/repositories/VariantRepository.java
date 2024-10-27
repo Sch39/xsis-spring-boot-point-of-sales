@@ -51,7 +51,7 @@ public interface VariantRepository extends JpaRepository<VariantEntity, Long> {
             select v from VariantEntity v
             join v.product p
             join p.category c
-             where (:variantName is null or v.name ilike %:variantName% and v.deleted=false)
+             where (:variantName is null or v.name ilike %:variantName% and v.deleted=false and v.stock>0)
                     and (:productName is null or p.name ilike %:productName% and p.deleted=false)
                     and (:categoryName is null or c.name ilike %:categoryName% and c.deleted=false)
             """)

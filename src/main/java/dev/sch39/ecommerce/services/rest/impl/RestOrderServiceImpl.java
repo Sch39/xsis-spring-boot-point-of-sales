@@ -48,14 +48,19 @@ public class RestOrderServiceImpl implements RestOrderService {
     List<Long> variantIds = orders.stream().map(order -> order.getVariantId())
         .collect(Collectors.toList());
 
+    List<Double> variantQuantities = orders.stream().map(order -> order.getQuantity()).collect(Collectors.toList());
+
     List<Double> variantPrices = variantRepository.findPricesByVariantIds(variantIds);
     if (variantPrices.size() != orders.size()) {
       throw new IllegalArgumentException("Request contain not found variant_id");
     }
+    if (variantQuantities.size() != orders.size()) {
+      throw new IllegalArgumentException("Request contain not blank quantity");
+    }
 
     Double totalPrice = 0.0;
-    for (Double price : variantPrices) {
-      totalPrice += price;
+    for (int i = 0; i < orders.size(); i++) {
+      totalPrice += (variantPrices.get(i) * variantQuantities.get(i));
     }
 
     if (totalPrice > payMoney) {

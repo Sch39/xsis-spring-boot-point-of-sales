@@ -3,7 +3,9 @@ package dev.sch39.ecommerce.services.rest.impl;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,17 +52,26 @@ public class RestOrderServiceImpl implements RestOrderService {
 
     List<Double> variantQuantities = orders.stream().map(order -> order.getQuantity()).collect(Collectors.toList());
 
-    List<Double> variantPrices = variantRepository.findPricesByVariantIds(variantIds);
-    if (variantPrices.size() != orders.size()) {
+    List<Object[]> pricesData = variantRepository.findPricesByVariantIds(variantIds);
+    if (pricesData.size() != orders.size()) {
       throw new IllegalArgumentException("Request contain not found variant_id");
     }
     if (variantQuantities.size() != orders.size()) {
-      throw new IllegalArgumentException("Request contain not blank quantity");
+      throw new IllegalArgumentException("Request contain blank quantity");
+    }
+
+    Map<Long, Double> priceMap = new HashMap<>();
+    for (Object[] row : pricesData) {
+      priceMap.put(((Number) row[0]).longValue(), (Double) row[1]);
     }
 
     Double totalPrice = 0.0;
     for (int i = 0; i < orders.size(); i++) {
-      totalPrice += (variantPrices.get(i) * variantQuantities.get(i));
+      Long variantId = variantIds.get(i);
+      Double quantity = variantQuantities.get(i);
+      Double price = priceMap.get(variantId);
+
+      totalPrice += (price * quantity);
     }
 
     if (totalPrice > payMoney) {
@@ -75,6 +86,8 @@ public class RestOrderServiceImpl implements RestOrderService {
       throw new IllegalArgumentException("Request contains quantity with exceeds stock");
     }
 
+    // variantRepository.updateStocks(availableVariantIds, variantQuantities);
+
     String headerReference = this.generateOrderReference();
     OrderHeaderEntity orderHeader = new OrderHeaderEntity();
     orderHeader.setReference(headerReference);
@@ -87,14 +100,14 @@ public class RestOrderServiceImpl implements RestOrderService {
     // throw new IllegalArgumentException("error custom");
     // }
     List<OrderDetailEntity> orderDetails = new ArrayList<>();
-    int i = 0;
 
-    for (OrderItemUserDto itemUserDto : orders) {
+    for (int i = 0; i < orders.size(); i++) {
+      OrderItemUserDto itemUserDto = orders.get(i);
       OrderDetailEntity orderDetail = new OrderDetailEntity();
       orderDetail.setHeaderId(orderHeader.getId());
       orderDetail.setVariantId(itemUserDto.getVariantId());
       orderDetail.setQuantity(itemUserDto.getQuantity());
-      orderDetail.setPrice(variantPrices.get(i));
+      // orderDetail.setPrice(variantPrices.get(i));
       orderDetail.setDeleted(false);
 
       orderDetails.add(orderDetail);

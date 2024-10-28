@@ -27,8 +27,8 @@ public class VariantFactoryImpl implements Factory {
         VariantEntity variantEntity = new VariantEntity();
         variantEntity.setName(faker.pokemon().name());
         variantEntity.setDescription(faker.lorem().paragraph(10));
-        variantEntity.setSlug(faker.internet().slug());
-        variantEntity.setPrice(Double.valueOf(faker.commerce().price(10_000, 300_000)));
+        variantEntity.setSlug(faker.internet().slug() + "-" + i + "" + j);
+        variantEntity.setPrice(Double.valueOf(faker.number().numberBetween(1, 5) * 1000));
         variantEntity.setStock(Double.valueOf(faker.number().numberBetween(0, 20)));
         variantEntity.setProductId(i);
         variantEntity.setDeleted(i == j ? false : faker.bool().bool());

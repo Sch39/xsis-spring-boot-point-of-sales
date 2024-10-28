@@ -86,7 +86,28 @@ public class RestOrderServiceImpl implements RestOrderService {
       throw new IllegalArgumentException("Request contains quantity with exceeds stock");
     }
 
-    // variantRepository.updateStocks(availableVariantIds, variantQuantities);
+    Long[] arrVariantIds = new Long[availableVariantIds.size()];
+    arrVariantIds = availableVariantIds.toArray(arrVariantIds);
+
+    Double[] arrVariantQuantities = new Double[variantQuantities.size()];
+    arrVariantQuantities = variantQuantities.toArray(arrVariantQuantities);
+
+    variantRepository.updateStocks(arrVariantIds, arrVariantQuantities);
+
+    // List<Object[]> stocksData =
+    // variantRepository.findStocksByVariantIds(variantIds);
+
+    // Map<Long, Double> stocksMap = new HashMap<>();
+    // for (Object[] row : pricesData) {
+    // stocksMap.put(((Number) row[0]).longValue(), (Double) row[1]);
+    // }
+
+    // List<VariantEntity> variantsUpdated = new ArrayList<>();
+    // for (Object[] row : stocksData) {
+    // Long key = ((Number) row[0]).longValue();
+    // Double stock = (Double) row[1];
+
+    // }
 
     String headerReference = this.generateOrderReference();
     OrderHeaderEntity orderHeader = new OrderHeaderEntity();

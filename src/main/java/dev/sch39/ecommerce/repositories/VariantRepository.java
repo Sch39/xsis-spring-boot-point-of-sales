@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -24,7 +25,7 @@ public interface VariantRepository extends JpaRepository<VariantEntity, Long> {
     Page<VariantEntity> findAllDeleted(Pageable pageable);
 
     @Query(value = """
-                  WITH req_data AS (
+            WITH req_data AS (
                 SELECT
                     req:: jsonb reqb
                 FROM
@@ -44,8 +45,8 @@ public interface VariantRepository extends JpaRepository<VariantEntity, Long> {
                   """, nativeQuery = true)
     List<Long> findAvailableVariantIds(String ordersJson);
 
-    @Query(value = "select price from variants where id in ?1 and is_deleted=false", nativeQuery = true)
-    List<Double> findPricesByVariantIds(List<Long> variantIds);
+    @Query(value = "select id, price from variants where id in ?1 and is_deleted=false", nativeQuery = true)
+    List<Object[]> findPricesByVariantIds(List<Long> variantIds);
 
     @Query(value = """
             select v from VariantEntity v
@@ -60,4 +61,24 @@ public interface VariantRepository extends JpaRepository<VariantEntity, Long> {
             @Param("productName") String productName,
             @Param("categoryName") String categoryName,
             Pageable pageable);
+
+    @Query(value = "select id, stock from variants where id in ?1 and is_deleted=false", nativeQuery = true)
+    List<Object[]> findStocksByVariantIds(List<Long> variantIds);
+
+    @Modifying
+    @Query(value = """
+            update
+                variants
+            set
+                stock = stock - data_updated.quantity
+            from
+                (
+                    select
+                        unnest(?1) as id,
+                        unnest(?2) as quantity
+                ) as data_updated
+            where
+                variants.id = data_updated.id
+                                """, nativeQuery = true)
+    void updateStocks(Long[] variantIds, Double[] quantities);
 }

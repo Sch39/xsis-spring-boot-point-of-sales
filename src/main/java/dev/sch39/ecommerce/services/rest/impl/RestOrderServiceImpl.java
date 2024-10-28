@@ -101,17 +101,20 @@ public class RestOrderServiceImpl implements RestOrderService {
     // }
     List<OrderDetailEntity> orderDetails = new ArrayList<>();
 
-    for (int i = 0; i < orders.size(); i++) {
-      OrderItemUserDto itemUserDto = orders.get(i);
+    for (OrderItemUserDto itemUserDto : orders) {
       OrderDetailEntity orderDetail = new OrderDetailEntity();
+
+      Long variantId = itemUserDto.getVariantId();
+      Double quantity = itemUserDto.getQuantity();
+      Double price = priceMap.get(variantId);
+
       orderDetail.setHeaderId(orderHeader.getId());
-      orderDetail.setVariantId(itemUserDto.getVariantId());
-      orderDetail.setQuantity(itemUserDto.getQuantity());
-      // orderDetail.setPrice(variantPrices.get(i));
+      orderDetail.setVariantId(variantId);
+      orderDetail.setQuantity(quantity);
+      orderDetail.setPrice(price);
       orderDetail.setDeleted(false);
 
       orderDetails.add(orderDetail);
-      i++;
     }
 
     orderDetailRepository.saveAll(orderDetails);
